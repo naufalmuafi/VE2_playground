@@ -43,8 +43,8 @@ class SnakeGameEnv(gym.Env):
                                             shape=(N_CHANNELS, HEIGHT, WIDTH), dtype=np.uint8)
 
     def step(self, action):
-        ...
-        return observation, reward, terminated, truncated, info
+        info = {}
+        return self.observation, self.reward, self.terminated, self.truncated, info
 
     def reset(self, seed=None, options=None):
         self.done = False
@@ -72,5 +72,6 @@ class SnakeGameEnv(gym.Env):
             self.prev_actions(-1)
         
         self.observation = [head_x, head_y, apple_delta_x, apple_delta_y, snake_length] + list(self.prev_actions)
+        info = {}
         
-        return self.observation, self.info
+        return self.observation, info
