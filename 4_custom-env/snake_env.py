@@ -40,9 +40,11 @@ class SnakeGameEnv(gym.Env):
         self.action_space = spaces.Discrete(4)
         # Example for using image as input (channel-first; channel-last also works):
         self.observation_space = spaces.Box(low=-500, high=500,
-                                            shape=(5+SNAKE_LEN_GOAL, ), dtype=np.float32)
+                                            shape=(5+SNAKE_LEN_GOAL, ), dtype=np.int32)
 
     def step(self, action):
+        self.prev_actions.append(action)
+        
         cv2.imshow('snake_game', self.img)
         cv2.waitKey(1)
         self.img = np.zeros((500,500,3),dtype='uint8')
@@ -106,17 +108,18 @@ class SnakeGameEnv(gym.Env):
         
         snake_length = len(self.snake_position)
         
-        self.prev_actions = deque(maxlen=SNAKE_LEN_GOAL)
-        for _ in range(SNAKE_LEN_GOAL):
-            self.prev_actions(-1)
-        
-        self.observation = [head_x, head_y, apple_delta_x, apple_delta_y, snake_length] + list(self.prev_actions)
+        self.observation = np.array([head_x, head_y, apple_delta_x, apple_delta_y, snake_length] + list(self.prev_actions))
         
         info = {}
         return self.observation, self.reward, self.terminated, self.truncated, info
 
     def reset(self, seed=None, options=None):
+        if seed is not None:            
+            random.seed(seed)
+        
         self.done = False
+        self.terminated = False
+        
         self.img = np.zeros((500,500,3),dtype='uint8')
 
         # Initial Snake and Apple position
@@ -138,9 +141,9 @@ class SnakeGameEnv(gym.Env):
         
         self.prev_actions = deque(maxlen=SNAKE_LEN_GOAL)
         for _ in range(SNAKE_LEN_GOAL):
-            self.prev_actions(-1)
+            self.prev_actions.append(-1)
         
-        self.observation = [head_x, head_y, apple_delta_x, apple_delta_y, snake_length] + list(self.prev_actions)
+        self.observation = np.array([head_x, head_y, apple_delta_x, apple_delta_y, snake_length] + list(self.prev_actions))
         info = {}
         
         return self.observation, info
