@@ -156,3 +156,16 @@ class WarehouseRobot:
         if (event.key == pygame.K_ESCAPE):
           pygame.quit()
           sys.exit()
+
+
+# for unit testing
+if __name__=="__main__":
+  warehouseRobot = WarehouseRobot()
+  warehouseRobot.render()
+
+  while(True):
+    rand_action = random.choice(list(RobotAction))
+    print(rand_action)
+    
+    warehouseRobot.perform_action(rand_action)
+    warehouseRobot.render()
