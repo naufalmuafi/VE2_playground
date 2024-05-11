@@ -142,4 +142,17 @@ class WarehouseRobot:
     pygame.display.update()
     
     # Limit frames per second
-    self.clock.tick(self.fps)  
+    self.clock.tick(self.fps)
+  
+  def process_events(self):
+    for event in pygame.event.get():
+      # user clicks the close button
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+      
+      if (event.type == pygame.KEYDOWN):
+        # user hit escape key
+        if (event.key == pygame.K_ESCAPE):
+          pygame.quit()
+          sys.exit()
