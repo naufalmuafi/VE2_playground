@@ -93,8 +93,10 @@ class WarehouseRobotEnv(gym.Env):
       print(wr.RobotAction(action))
       self.render()
     
+    truncated = False
+    
     # return observation, reward, termination, and info
-    return obs, reward, terminated, False, info
+    return obs, reward, terminated, truncated, info
   
   # render() to render the environment
   def render(self):
