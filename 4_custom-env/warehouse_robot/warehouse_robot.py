@@ -167,5 +167,5 @@ if __name__=="__main__":
     rand_action = random.choice(list(RobotAction))
     print(rand_action)
     
-    warehouseRobot.perform_action(rand_action)
+    warehouseRobot.action(rand_action)
     warehouseRobot.render()
