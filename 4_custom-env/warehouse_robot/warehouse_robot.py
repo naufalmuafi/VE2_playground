@@ -100,3 +100,46 @@ class WarehouseRobot:
         
     # return True if Robot reaches the Target
     return self.robot_pos == self.target_pos
+  
+  def render(self):
+    # print current state on the console
+    for row in range(self.grid_rows):
+      for col in range(self.grid_cols):
+        if ([row, col] == self.robot_pos):
+          print(GridTile.ROBOT, end=' ')
+        elif ([row, col] == self.target_pos):
+          print(GridTile.TARGET, end=' ')
+        else:
+          print (GridTile.FLOOR, end=' ')
+      print()
+    print()
+    
+    self.process_events()
+    
+    # clear to white background, otherwise text with varying
+    # length will leave behind prior rendered portions
+    self.window_surface.fill((255,255,255))
+    
+    # print current state on the console
+    for row in range(self.grid_rows):
+      for col in range(self.grid_cols):
+        # draw floors
+        pos = (col * self.cell_width, row * self.cell_height)
+        self.window_surface.blit(self.floor_img, pos)
+        
+        if ([row, col] == self.target_pos):
+          # draw target
+          self.window_surface.blit(self.goal_img, pos)
+        
+        if ([row, col] == self.robot_pos):
+          # draw robot
+          self.window_surface.blit(self.robot_img, pos)
+    
+    text_img = self.action_font.render(f'Action: {self.last_action}', True, (0,0,0), (255,255,255))
+    text_pos = (0, self.window_size[1] - self.action_info_height)
+    self.window_surface.blit(text_img, text_pos)
+    
+    pygame.display.update()
+    
+    # Limit frames per second
+    self.clock.tick(self.fps)  
