@@ -26,3 +26,46 @@ class GridTile(Enum):
   def __str__(self):
     return self.name[:1]
 
+class WarehouseRobot:
+  # Initialize the grid size. Pass in an integer seed to make randomness (Targets) repeatable.
+  def __init__(self, grid_rows=4, grid_cols=5, fps=1):
+    self.grid_rows = grid_rows
+    self.grid_cols = grid_cols
+    self.reset()
+    
+    self.fps = fps
+    self.last_action = ''
+    self._init_pygame()
+  
+  def _init_pygame(self):
+    pygame.init() # initialize pygame
+    pygame.display.init() # initialize the display module
+    self.clock = pygame.time.Clock() # create a clock object to control the frame rate
+    
+    # default font
+    self.action_font = pygame.font.SysFont('Calibre', 30)
+    self.action_info_height = self.action_font.get_height()
+    
+    # for rendering the grid purposes
+    self.cell_height = 64
+    self.cell_width = 64
+    self.cell_size = (self.cell_width, self.cell_height)
+    
+    # define game window size (w, h)
+    self.window_size = (self.grid_cols * self.cell_width, self.cell_height * self.grid_rows + self.action_info_height)
+    
+    # initialize game windows
+    self.window_surface = pygame.display.set_mode(self.window_size)
+    
+    # load and resize sprites
+    file_name = path.join(path.dirname(__file__), 'sprites/bot_blue.png')
+    img = pygame.image.load(file_name)
+    self.robot_img = pygame.transform.scale(img, self.cell_size)
+    
+    file_name = path.join(path.dirname(__file__), 'sprites/floor.png')
+    img = pygame.image.load(file_name)
+    self.robot_img = pygame.transform.scale(img, self.cell_size)
+    
+    file_name = path.join(path.dirname(__file__), 'sprites/package.png')
+    img = pygame.image.load(file_name)
+    self.robot_img = pygame.transform.scale(img, self.cell_size)
