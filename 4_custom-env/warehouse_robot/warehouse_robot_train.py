@@ -43,7 +43,7 @@ def test_A2C(render=True):
     done = False
     while not done:
         action, _states = model.predict(obs, deterministic=True) # deterministic=True means no random action
-        obs, _rewards, done, _info = env.step(action)
+        obs, _rewards, done, _, _info = env.step(action)
         
         if done:
           break
@@ -52,4 +52,4 @@ def test_A2C(render=True):
 if __name__ == '__main__':
     # train and test the model with A2C algorithm
     train_A2C()
-    test_A2C()
+    # test_A2C()
