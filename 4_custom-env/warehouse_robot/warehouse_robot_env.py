@@ -46,7 +46,8 @@ class WarehouseRobotEnv(gym.Env):
       shape=(4, ), 
       dtype=np.int32
     )
-    
+  
+  # reset() to reset the environment
   def reset(self, seed=None, options=None):
     super().reset(seed=seed) # required to control the randomness and reproduce the scenario
     
@@ -66,3 +67,31 @@ class WarehouseRobotEnv(gym.Env):
     
     # return obsservation and info
     return obs, info
+  
+  # step() to take/perform an action in the environment
+  def step(self, action):
+    # perform action
+    target_reached = self.warehouse_robot.perform_action(wr.RobotAction(action))
+    
+    # determine reward and termination
+    reward = 0
+    terminated = False
+    
+    if target_reached:
+      reward = 1
+      terminated = True
+    
+    # construct the observation state:
+    # [robot_row_pos, robot_col_pos, target_row_pos, target_col_pos]
+    obs = np.concatenate((self.warehouse_robot.robot_pos, self.warehouse_robot.target_pos))
+    
+    # additional info to return
+    info = {}
+    
+    # render environment
+    if (self.render_mode == 'human'):
+      print(wr.RobotAction(action))
+      self.render()
+    
+    # return observation, reward, termination, and info
+    return obs, reward, terminated, info
