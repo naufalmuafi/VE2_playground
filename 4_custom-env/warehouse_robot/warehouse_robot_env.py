@@ -14,7 +14,7 @@ import numpy as np
 # register the module as a gym environment, so once registered, the id is usable in gym.make()
 register(
   id='WarehouseRobot-v0',
-  entry_point='warehouse_robot:WarehouseRobotEnv',
+  entry_point='warehouse_robot_env:WarehouseRobotEnv',
 )
 
 # Implement our own gym env, must inherit from gym.Env
@@ -71,7 +71,7 @@ class WarehouseRobotEnv(gym.Env):
   # step() to take/perform an action in the environment
   def step(self, action):
     # perform action
-    target_reached = self.warehouse_robot.perform_action(wr.RobotAction(action))
+    target_reached = self.warehouse_robot.action(wr.RobotAction(action))
     
     # determine reward and termination
     reward = 0
@@ -113,7 +113,7 @@ if __name__=="__main__":
   obs = env.reset()[0]
   
   # take some random actions
-  while(True):
+  for i in range(10):
     random_action = env.action_space.sample()
     obs, reward, terminated, info = env.step(random_action)
     
