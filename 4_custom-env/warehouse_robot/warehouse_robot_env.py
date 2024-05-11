@@ -94,7 +94,7 @@ class WarehouseRobotEnv(gym.Env):
       self.render()
     
     # return observation, reward, termination, and info
-    return obs, reward, terminated, info
+    return obs, reward, terminated, False, info
   
   # render() to render the environment
   def render(self):
@@ -115,7 +115,7 @@ if __name__=="__main__":
   # take some random actions
   for i in range(10):
     random_action = env.action_space.sample()
-    obs, reward, terminated, info = env.step(random_action)
+    obs, reward, terminated, _, _ = env.step(random_action)
     
     if terminated:
       obs = env.reset()[0]
