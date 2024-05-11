@@ -64,11 +64,11 @@ class WarehouseRobot:
     
     file_name = path.join(path.dirname(__file__), 'sprites/floor.png')
     img = pygame.image.load(file_name)
-    self.robot_img = pygame.transform.scale(img, self.cell_size)
+    self.floor_img = pygame.transform.scale(img, self.cell_size)
     
     file_name = path.join(path.dirname(__file__), 'sprites/package.png')
     img = pygame.image.load(file_name)
-    self.robot_img = pygame.transform.scale(img, self.cell_size)
+    self.goal_img = pygame.transform.scale(img, self.cell_size)
   
   def reset (self, seed=None):
     # initialize robot's starting position
