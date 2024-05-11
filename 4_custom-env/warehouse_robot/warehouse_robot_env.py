@@ -46,3 +46,23 @@ class WarehouseRobotEnv(gym.Env):
       shape=(4, ), 
       dtype=np.int32
     )
+    
+  def reset(self, seed=None, options=None):
+    super().reset(seed=seed) # required to control the randomness and reproduce the scenario
+    
+    # Reset the WarehouseRobot. Optionally, pass in seed control randomness and reproduce scenarios.
+    self.warehouse_robot.reset(seed=seed)
+    
+    # construct the obs. state:
+    # [robot_row_pos, robot_col_pos, target_row_pos, target_col_pos]
+    obs = np.concatenate((self.warehouse_robot.robot_pos, self.warehouse_robot.target_pos))
+    
+    # additional info to the return, for debugging purposes
+    info = {}
+    
+    # render environment
+    if (self.render_mode=='human'):
+      self.render()
+    
+    # return obsservation and info
+    return obs, info
