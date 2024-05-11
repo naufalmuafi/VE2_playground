@@ -95,3 +95,7 @@ class WarehouseRobotEnv(gym.Env):
     
     # return observation, reward, termination, and info
     return obs, reward, terminated, info
+  
+  # render() to render the environment
+  def render(self):
+    self.warehouse_robot.render()
