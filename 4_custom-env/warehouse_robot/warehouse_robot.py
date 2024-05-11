@@ -69,3 +69,14 @@ class WarehouseRobot:
     file_name = path.join(path.dirname(__file__), 'sprites/package.png')
     img = pygame.image.load(file_name)
     self.robot_img = pygame.transform.scale(img, self.cell_size)
+  
+  def reset (self, seed=None):
+    # initialize robot's starting position
+    self.robot_pos = [0, 0]
+    
+    # random target position
+    random.seed(seed)
+    self.target_pos = [
+      random.randint(1, self.grid_rows - 1),
+      random.randint(1, self.grid_cols - 1)
+    ]
