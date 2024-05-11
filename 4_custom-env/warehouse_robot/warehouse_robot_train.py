@@ -47,3 +47,9 @@ def test_A2C(render=True):
         
         if done:
           break
+
+# unit testing
+if __name__ == '__main__':
+    # train and test the model with A2C algorithm
+    train_A2C()
+    test_A2C()
