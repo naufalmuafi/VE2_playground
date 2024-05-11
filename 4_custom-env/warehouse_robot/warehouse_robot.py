@@ -80,3 +80,23 @@ class WarehouseRobot:
       random.randint(1, self.grid_rows - 1),
       random.randint(1, self.grid_cols - 1)
     ]
+  
+  def action(self, robot_action:RobotAction) -> bool:
+    self.last_action = robot_action
+    
+    # move the robot to the next cell
+    if robot_action == RobotAction.LEFT:
+      if self.robot_pos[1] > 0:
+        self.robot_pos[1] -= 1
+    elif robot_action == RobotAction.RIGHT:
+      if self.robot_pos[1] < self.grid_cols - 1:
+        self.robot_pos[1] += 1
+    elif robot_action == RobotAction.UP:
+      if self.robot_pos[0] > 0:
+        self.robot_pos[0] -= 1
+    elif robot_action == RobotAction.DOWN:
+      if self.robot_pos[0] < self.grid_rows - 1:
+        self.robot_pos[0] += 1
+        
+    # return True if Robot reaches the Target
+    return self.robot_pos == self.target_pos
