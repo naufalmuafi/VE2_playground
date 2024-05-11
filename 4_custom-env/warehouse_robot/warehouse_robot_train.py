@@ -30,3 +30,20 @@ def train_A2C():
       
       model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False)
       model.save(f'{model_dir}/a2c_{TIMESTEPS * iters}')
+
+# test with A2C algorithm
+def test_A2C(render=True):
+    env = gym.make('WarehouseRobot-v0', render_mode='human' if render else None)
+    
+    # load the model
+    model = A2C.load('models/a2c_2000', env=env)
+    
+    # run a test
+    obs = env.reset()[0]
+    done = False
+    while not done:
+        action, _states = model.predict(obs, deterministic=True) # deterministic=True means no random action
+        obs, _rewards, done, _info = env.step(action)
+        
+        if done:
+          break
