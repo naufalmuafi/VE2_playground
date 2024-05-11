@@ -99,3 +99,23 @@ class WarehouseRobotEnv(gym.Env):
   # render() to render the environment
   def render(self):
     self.warehouse_robot.render()
+
+# for unit testing
+if __name__=="__main__":
+  env = gym.make('WarehouseRobot-v0', render_mode='human')
+  
+  # Use this to check our custom environment
+  print("Check environment begin")
+  check_env(env.unwrapped)
+  print("Check environment end")
+  
+  # reset environment
+  obs = env.reset()[0]
+  
+  # take some random actions
+  while(True):
+    random_action = env.action_space.sample()
+    obs, reward, terminated, info = env.step(random_action)
+    
+    if terminated:
+      obs = env.reset()[0]
