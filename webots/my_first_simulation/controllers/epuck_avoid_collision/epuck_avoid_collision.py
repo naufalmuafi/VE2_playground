@@ -4,7 +4,7 @@ from controller import Robot, DistanceSensor, Motor
 TIME_STEP = 64
 
 # MAX_SPEED is to be used as the maximum speed of the motors in rad/s
-MAX_SPEED = 8
+MAX_SPEED = 6.28
 
 # create the Robot instance.
 robot = Robot()
@@ -38,9 +38,12 @@ while robot.step(TIME_STEP) != -1:
     ps_values = []
     for i in range(len(ps)):
         ps_values.append(ps[i].getValue())
+
+    # print sensor values
+    print(f"Sensor values: {ps_values}")
     
     # detect obstacles
-    r = 80.0
+    r = 80.0 # lower the value to detect obstacles further away
     right_obstacle = ps_values[0] > r or ps_values[1] > r or ps_values[2] > r
     left_obstacle = ps_values[5] > r or ps_values[6] > r or ps_values[7] > r
 
@@ -55,10 +58,12 @@ while robot.step(TIME_STEP) != -1:
         # turn right
         left_speed = n * MAX_SPEED
         right_speed = -n * MAX_SPEED
+        print("turn right\n")
     elif right_obstacle:
         # turn left
         left_speed = -n * MAX_SPEED
         right_speed = n * MAX_SPEED
+        print("turn left\n")
     
     # write actuators inputs
     leftMotor.setVelocity(left_speed)
