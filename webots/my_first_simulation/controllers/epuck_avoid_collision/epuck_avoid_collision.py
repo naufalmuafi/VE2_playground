@@ -1,4 +1,4 @@
-from controller import Robot, DistanceSensor, Motor
+from controller import Robot, DistanceSensor, Motor # type: ignore
 
 # TIME_STEP is to be used as the simulation time step in milliseconds
 TIME_STEP = 64
