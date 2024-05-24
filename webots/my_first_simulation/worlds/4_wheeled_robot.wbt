@@ -9,8 +9,8 @@ WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.26492380766366713 -0.0008278895939043112 -0.9642689929328874 3.147619336172526
-  position 1.507503639642427 0.04104441889988284 0.8264824748499102
+  orientation 0.24255632478857422 -2.0599841277224584e-17 -0.9701373249726348 3.1415926535897927
+  position 1.7085999612119456 0.009875830100662689 0.9579718060345433
 }
 TexturedBackground {
 }
@@ -96,10 +96,17 @@ Robot {
       }
     }
     DEF WHEEL_1 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
       endPoint Solid {
+        translation 0.05 0.06 0
+        rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
             appearance PBRAppearance {
+              baseColor 1 0.501961 0
               roughness 1
               metalness 0
             }
@@ -117,7 +124,13 @@ Robot {
       }
     }
     DEF WHEEL_2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
       endPoint Solid {
+        translation 0.05 -0.06 0
+        rotation 1 0 0 1.5708
         children [
           USE WHEEL
         ]
@@ -128,7 +141,13 @@ Robot {
       }
     }
     DEF WHEEL_3 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
       endPoint Solid {
+        translation -0.05 0.06 0
+        rotation 1 0 0 1.5708
         children [
           USE WHEEL
         ]
@@ -139,7 +158,13 @@ Robot {
       }
     }
     DEF WHEEL_4 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0.05 0.06 0
+      }
       endPoint Solid {
+        translation -0.05 -0.06 0
+        rotation 1 0 0 1.5708
         children [
           USE WHEEL
         ]
