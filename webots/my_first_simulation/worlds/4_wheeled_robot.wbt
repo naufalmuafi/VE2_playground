@@ -6,13 +6,14 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/vehicles/protos/abstract/GenericTireAppearance.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Fabric.proto"
 
 WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
   orientation 0.21334742830078432 4.410534437671032e-16 -0.9769763942068621 3.1415926535897953
-  position 1.6771609302390524 -0.014910389497949593 0.8070635531592463
+  position 1.9061071374071412 -0.014910389497950162 0.9120630970138119
 }
 TexturedBackground {
 }
@@ -87,6 +88,36 @@ Solid {
 Robot {
   translation 0 0 0.0411658
   children [
+    DEF DS_LEFT DistanceSensor {
+      translation 0.1 0.03 0
+      rotation 0 0 1 0.03
+      children [
+        Shape {
+          appearance Fabric {
+            IBLStrength 10
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_left"
+    }
+    DEF DS_RIGHT DistanceSensor {
+      translation 0.1 -0.03 0
+      rotation 0 0 1 -0.03
+      children [
+        Shape {
+          appearance Fabric {
+            IBLStrength 10
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "ds_right"
+    }
     DEF BODY Shape {
       appearance ThreadMetalPlate {
       }
