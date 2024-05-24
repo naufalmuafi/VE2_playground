@@ -1,0 +1,84 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation 0.26492380766366713 -0.0008278895939043112 -0.9642689929328874 3.147619336172526
+  position 1.507503639642427 0.04104441889988284 0.8264824748499102
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 1 1
+  tileSize 0.3 0.3
+}
+WoodenBox {
+  translation 0.323941 0.29124 0.05
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.258126 -0.283445 0.05
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.348369 -0.358911 0.05
+  name "wooden box(3)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation -0.351374 0.238716 0.05
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+Solid {
+  translation -0.01 0.51 0.025
+  children [
+    DEF WALL_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 0.219608 0.105882 0.0901961
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 1.02 0.02 0.05
+      }
+    }
+  ]
+  name "WALL_1"
+  boundingObject USE WALL_SHAPE
+}
+Solid {
+  translation 0.01 -0.51 0.025
+  children [
+    USE WALL_SHAPE
+  ]
+  name "WALL_2"
+  boundingObject USE WALL_SHAPE
+}
+Solid {
+  translation 0.51 0.01 0.025
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    USE WALL_SHAPE
+  ]
+  name "WALL_3"
+  boundingObject USE WALL_SHAPE
+}
+Solid {
+  translation -0.51 -0.01 0.025
+  rotation 0 0 1 -1.5707953071795862
+  children [
+    USE WALL_SHAPE
+  ]
+  name "WALL_4"
+  boundingObject USE WALL_SHAPE
+}
