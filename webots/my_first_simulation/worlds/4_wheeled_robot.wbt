@@ -4,13 +4,15 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/containers/protos/WoodenBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 
 WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.24255632478857422 -2.0599841277224584e-17 -0.9701373249726348 3.1415926535897927
-  position 1.7085999612119456 0.009875830100662689 0.9579718060345433
+  orientation 0.21334742830078432 4.410534437671032e-16 -0.9769763942068621 3.1415926535897953
+  position 1.6771609302390524 -0.014910389497949593 0.8070635531592463
 }
 TexturedBackground {
 }
@@ -86,10 +88,7 @@ Robot {
   translation 0 0 0.0411658
   children [
     DEF BODY Shape {
-      appearance PBRAppearance {
-        baseColor 0.333333 0.333333 0.498039
-        roughness 1
-        metalness 0
+      appearance ThreadMetalPlate {
       }
       geometry Box {
         size 0.2 0.1 0.05
@@ -100,15 +99,17 @@ Robot {
         axis 0 1 0
         anchor 0.05 0.06 0
       }
+      device [
+        RotationalMotor {
+          name "wheel_1"
+        }
+      ]
       endPoint Solid {
         translation 0.05 0.06 0
         rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
-            appearance PBRAppearance {
-              baseColor 1 0.501961 0
-              roughness 1
-              metalness 0
+            appearance GenericTireAppearance {
             }
             geometry Cylinder {
               height 0.02
@@ -126,8 +127,13 @@ Robot {
     DEF WHEEL_2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.05 0.06 0
+        anchor 0.05 -0.06 0
       }
+      device [
+        RotationalMotor {
+          name "wheel_2"
+        }
+      ]
       endPoint Solid {
         translation 0.05 -0.06 0
         rotation 1 0 0 1.5708
@@ -143,8 +149,13 @@ Robot {
     DEF WHEEL_3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.05 0.06 0
+        anchor -0.05 0.06 0
       }
+      device [
+        RotationalMotor {
+          name "wheel_3"
+        }
+      ]
       endPoint Solid {
         translation -0.05 0.06 0
         rotation 1 0 0 1.5708
@@ -160,8 +171,13 @@ Robot {
     DEF WHEEL_4 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.05 0.06 0
+        anchor -0.05 -0.06 0
       }
+      device [
+        RotationalMotor {
+          name "wheel_4"
+        }
+      ]
       endPoint Solid {
         translation -0.05 -0.06 0
         rotation 1 0 0 1.5708
