@@ -82,3 +82,76 @@ Solid {
   name "WALL_4"
   boundingObject USE WALL_SHAPE
 }
+Robot {
+  translation 0 0 0.0411658
+  children [
+    DEF BODY Shape {
+      appearance PBRAppearance {
+        baseColor 0.333333 0.333333 0.498039
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.2 0.1 0.05
+      }
+    }
+    DEF WHEEL_1 HingeJoint {
+      endPoint Solid {
+        children [
+          DEF WHEEL Shape {
+            appearance PBRAppearance {
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.04
+              subdivision 24
+            }
+          }
+        ]
+        name "wheel_1"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL_2 HingeJoint {
+      endPoint Solid {
+        children [
+          USE WHEEL
+        ]
+        name "wheel_2"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL_3 HingeJoint {
+      endPoint Solid {
+        children [
+          USE WHEEL
+        ]
+        name "wheel_3"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+    DEF WHEEL_4 HingeJoint {
+      endPoint Solid {
+        children [
+          USE WHEEL
+        ]
+        name "wheel_4"
+        boundingObject USE WHEEL
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "4_wheels_robot"
+  boundingObject USE BODY
+  physics Physics {
+  }
+}
