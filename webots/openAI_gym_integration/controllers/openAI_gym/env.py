@@ -28,3 +28,34 @@ class Pioneer3atEnv(Supervisor, gym.Env):
   
   def __init__(self, max_episode_steps=1000):
     super().init()
+    
+    # Open AI Gym generic
+    self.theta_threshold_radians = 0.2
+    self.x_threshold = 0.3
+    
+    high = np.array(
+      [
+        self.x_threshold * 2,
+        np.finfo(np.float32).max,
+        self.theta_threshold_radians * 2,
+        np.finfo(np.float32).max
+      ],
+      dtype=np.float32
+    )
+    
+    self.action_space = gym.spaces.Discrete(2)
+    self.observation_space = gym.spaces.Box(-high, high, dtype=np.float32)
+    
+    self.state = None
+    self.spec = gym.envs.registration.EnvSpec(id='WebotsEnv-v0', max_episode_steps=max_episode_steps)
+
+    # Environment specific
+    self.__timestep = int(self.getBasicTimeStep())
+    self.__wheels = []
+    self.__pendulum_sensor = None
+
+    # Tools
+    self.keyboard = self.getKeyboard()
+    self.keyboard.enable(self.__timestep)
+  
+  
