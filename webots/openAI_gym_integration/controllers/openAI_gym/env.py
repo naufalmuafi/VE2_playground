@@ -15,7 +15,7 @@ from gymnasium.utils.env_checker import check_env
 # register the module as a gym environment, so once registered, the id is usable in gym.make()
 register(
   id='Pioneer3at-v0',
-  entry_point='pioneer3at_env:Pioneer3atEnv',
+  entry_point='Pioneer3atEnv',
 )
 
 # Implement our own gym env, must inherit from gym.Env
@@ -113,3 +113,5 @@ class Pioneer3atEnv(Supervisor, gym.Env):
     truncated = False
 
     return obs, reward, done, truncated, {}
+
+# for unit testing
