@@ -58,4 +58,28 @@ class Pioneer3atEnv(Supervisor, gym.Env):
     self.keyboard = self.getKeyboard()
     self.keyboard.enable(self.__timestep)
   
-  
+  def reset(self, seed=None):
+    super().reset(seed=seed) # required to control the randomness and reproduce the scenario
+    
+    # reset the simulation
+    self.simulationResetPhysics()
+    self.simulationReset()
+    super().step(self.__timestep)
+    
+    # Intialize motor devices
+    self.__wheels = []
+    for name in ['back left wheel', 'back right wheel', 'front left wheel', 'front right wheel']:
+      wheel = self.getDevice(name)
+      wheel.setPosition(float('inf'))
+      wheel.setVelocity(0)
+      self.__wheels.append(wheel)
+
+    # Sensors
+    self.__pendulum_sensor = self.getDevice('position sensor')
+    self.__pendulum_sensor.enable(self.__timestep)
+
+    # Internals
+    super().step(self.__timestep)
+
+    # Open AI Gym generic
+    return np.array([0, 0, 0, 0]).astype(np.float32)
