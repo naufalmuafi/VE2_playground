@@ -7,13 +7,14 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Fabric.proto"
+EXTERNPROTO "../protos/FourWheelsRobot.proto"
 
 WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
-  orientation 0.21334742830078432 4.410534437671032e-16 -0.9769763942068621 3.1415926535897953
-  position 1.9061071374071412 -0.014910389497950162 0.9120630970138119
+  orientation 0.24316220881503875 0.001823750761567873 -0.9699839246798634 3.127042878588287
+  position 1.6886874695592522 0.08916969455081772 0.8966927064287511
 }
 TexturedBackground {
 }
@@ -86,7 +87,8 @@ Solid {
   boundingObject USE WALL_SHAPE
 }
 Robot {
-  translation 0 0 0.0411658
+  translation 0.13768692888207892 0.17186370281297383 0.039860489649126155
+  rotation -1.7339834128911738e-07 4.645348277388331e-08 -0.9999999999999839 0.5235953301247088
   children [
     DEF DS_LEFT DistanceSensor {
       translation 0.1 0.03 0
@@ -127,6 +129,7 @@ Robot {
     }
     DEF WHEEL_1 HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.527860728309612
         axis 0 1 0
         anchor 0.05 0.06 0
       }
@@ -137,7 +140,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.05 0.06 0
-        rotation 1 0 0 1.5708
+        rotation -0.9852173070389241 -0.12113370735254109 0.12113415230231032 4.697492812250665
         children [
           DEF WHEEL Shape {
             appearance GenericTireAppearance {
@@ -157,6 +160,7 @@ Robot {
     }
     DEF WHEEL_2 HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.527860728445232
         axis 0 1 0
         anchor 0.05 -0.06 0
       }
@@ -167,7 +171,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.05 -0.06 0
-        rotation 1 0 0 1.5708
+        rotation -0.985217307022737 -0.12113370741836811 0.12113415236813738 4.697492812234238
         children [
           USE WHEEL
         ]
@@ -179,6 +183,7 @@ Robot {
     }
     DEF WHEEL_3 HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.527860728309292
         axis 0 1 0
         anchor -0.05 0.06 0
       }
@@ -189,7 +194,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.05 0.06 0
-        rotation 1 0 0 1.5708
+        rotation -0.9852173070389622 -0.12113370735238518 0.12113415230215525 4.697492812250704
         children [
           USE WHEEL
         ]
@@ -201,6 +206,7 @@ Robot {
     }
     DEF WHEEL_4 HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.527860728444911
         axis 0 1 0
         anchor -0.05 -0.06 0
       }
@@ -211,7 +217,7 @@ Robot {
       ]
       endPoint Solid {
         translation -0.05 -0.06 0
-        rotation 1 0 0 1.5708
+        rotation -0.9852173070227753 -0.12113370741821207 0.12113415236798183 4.697492812234276
         children [
           USE WHEEL
         ]
@@ -222,8 +228,16 @@ Robot {
       }
     }
   ]
-  name "4_wheels_robot"
   boundingObject USE BODY
   physics Physics {
   }
+  controller "four_wheels_avoid_collision"
+}
+FourWheelsRobot {
+  hidden position_0_0 6.782745609475652e-12
+  hidden position_0_1 -6.782675544983489e-12
+  hidden position_0_2 6.783319409301778e-12
+  hidden position_0_3 -6.782781184095729e-12
+  translation 0.04986949729063513 -0.32720600270934064 0.03986048964911146
+  rotation -1.9837502489378502e-08 -4.789166334810252e-08 0.9999999999999986 2.3561899999997964
 }

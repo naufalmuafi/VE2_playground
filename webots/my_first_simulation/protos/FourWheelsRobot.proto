@@ -1,0 +1,157 @@
+#VRML_SIM R2023b utf8
+PROTO FourWheelsRobot [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    bodyMass     1
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF DS_LEFT DistanceSensor {
+        translation 0.1 0.03 0
+        rotation 0 0 1 0.03
+        children [
+          Shape {
+            appearance Fabric {
+              IBLStrength 10
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_left"
+      }
+      DEF DS_RIGHT DistanceSensor {
+        translation 0.1 -0.03 0
+        rotation 0 0 1 -0.03
+        children [
+          Shape {
+            appearance Fabric {
+              IBLStrength 10
+            }
+            geometry Box {
+              size 0.01 0.01 0.01
+            }
+          }
+        ]
+        name "ds_right"
+      }
+      DEF BODY Shape {
+        appearance ThreadMetalPlate {
+        }
+        geometry Box {
+          size 0.2 0.1 0.05
+        }
+      }
+      DEF WHEEL_1 HingeJoint {
+        jointParameters HingeJointParameters {
+          position 0.895980879360602
+          axis 0 1 0
+          anchor 0.05 0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel_1"
+          }
+        ]
+        endPoint Solid {
+          translation 0.05 0.06 0
+          rotation 0.8270648945384814 0.3974685519778397 -0.39747001196403464 1.7595413679883034
+          children [
+            DEF WHEEL Shape {
+              appearance GenericTireAppearance {
+              }
+              geometry Cylinder {
+                height 0.02
+                radius 0.04
+                subdivision 24
+              }
+            }
+          ]
+          name "wheel_1"
+          boundingObject USE WHEEL
+          physics Physics {
+          }
+        }
+      }
+      DEF WHEEL_2 HingeJoint {
+        jointParameters HingeJointParameters {
+          position 0.8959808798049286
+          axis 0 1 0
+          anchor 0.05 -0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel_2"
+          }
+        ]
+        endPoint Solid {
+          translation 0.05 -0.06 0
+          rotation 0.8270648943897759 0.3974685521325547 -0.39747001211875 1.7595413681649095
+          children [
+            USE WHEEL
+          ]
+          name "wheel_2"
+          boundingObject USE WHEEL
+          physics Physics {
+          }
+        }
+      }
+      DEF WHEEL_3 HingeJoint {
+        jointParameters HingeJointParameters {
+          position 0.8959808793602821
+          axis 0 1 0
+          anchor -0.05 0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel_3"
+          }
+        ]
+        endPoint Solid {
+          translation -0.05 0.06 0
+          rotation 0.8270648945385884 0.39746855197772807 -0.39747001196392345 1.759541367988176
+          children [
+            USE WHEEL
+          ]
+          name "wheel_3"
+          boundingObject USE WHEEL
+          physics Physics {
+          }
+        }
+      }
+      DEF WHEEL_4 HingeJoint {
+        jointParameters HingeJointParameters {
+          position 0.8959808798046082
+          axis 0 1 0
+          anchor -0.05 -0.06 0
+        }
+        device [
+          RotationalMotor {
+            name "wheel_4"
+          }
+        ]
+        endPoint Solid {
+          translation -0.05 -0.06 0
+          rotation 0.8270648943898835 0.39746855213244275 -0.3974700121186385 1.759541368164782
+          children [
+            USE WHEEL
+          ]
+          name "wheel_4"
+          boundingObject USE WHEEL
+          physics Physics {
+          }
+        }
+      }
+    ]
+    boundingObject USE BODY
+    physics Physics {
+      density -1
+      mass IS bodyMass
+    }
+    controller "four_wheels_avoid_collision"
+  }
+}
