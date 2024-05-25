@@ -3,8 +3,9 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/sphero/bb8/protos/BB-8.proto"
 IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/softbank/nao/protos/Nao.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/balls/protos/Ball.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/sphero/bb8/protos/BB-8.proto"
 
 WorldInfo {
 }
@@ -19,10 +20,26 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 10 10
 }
-DEF BB-8 BB-8 {
-  controller "<none>"
-}
 DEF SUPERVISOR Robot {
   controller "supervisor_controller"
   supervisor TRUE
+}
+DEF BB-8 BB-8 {
+  hidden position_0_0 -1.618121959418273e-05
+  hidden position_0_1 4.881791133250283e-06
+  hidden linearVelocity_0 0.015555013293612906 0.023831983534597145 -0.016314627304097024
+  hidden angularVelocity_0 -0.1845334505295712 0.13416380429194072 -0.021211326941122276
+  hidden rotation_3 0 0 -1 1.618120655004893e-05
+  hidden position_3_0 0.0003228525046196605
+  hidden linearVelocity_3 0.032423900326103844 0.046643714597843514 -0.017912360584295225
+  hidden angularVelocity_3 -0.18451937233976384 0.1342006951858825 -0.020974181005897687
+  hidden rotation_4 0 1 0 0.00032285250515973603
+  hidden linearVelocity_4 0.03234115065633414 0.046407319706217795 -0.017693718527591867
+  hidden angularVelocity_4 -0.18527984958050248 0.12951610323087698 -0.020494939005241096
+  hidden rotation_7 0 0 0.9999999999999999 4.881762320863808e-06
+  hidden linearVelocity_7 0.06994236123895588 0.09786634765962957 -0.022106391958605146
+  hidden angularVelocity_7 -0.18453311275844253 0.1341461326642244 -0.021281777062471283
+  translation 0.00227604117717945 0.0012124160075312092 -0.036412527306485115
+  rotation -0.5301451895626585 -0.26804433777368075 -0.8044242108309779 0.19414073031580487
+  controller "<none>"
 }
