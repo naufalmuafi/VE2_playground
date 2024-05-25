@@ -23,7 +23,7 @@ env = gym.make()
 model = PPO.load('models', env=env)
 
 # run the model in the agent environment
-obs = env.reset()[0]
+obs = env.reset()
 
 for _ in range(100000):
   action, _states = model.predict(obs)
@@ -31,4 +31,4 @@ for _ in range(100000):
   print(obs, reward, done)
   
   if done:
-    obs = env.reset()[0]
+    obs = env.reset()
