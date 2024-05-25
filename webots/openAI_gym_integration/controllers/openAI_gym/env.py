@@ -115,3 +115,22 @@ class Pioneer3atEnv(Supervisor, gym.Env):
     return obs, reward, done, truncated, {}
 
 # for unit testing
+if __name__=='__main__':
+  env = gym.make('Pioneer3at-v0')
+  
+  # Use this to check our custom environment
+  print("Check environment begin")
+  check_env(env.unwrapped)
+  print("Check environment end")
+  
+  # reset environment
+  obs = env.reset()
+  
+  # take some random actions
+  for i in range(10):
+    random_action = env.action_space.sample()
+    obs, reward, done, _, _ = env.step(random_action)
+    print(obs, reward, done)
+    
+    if done:
+      obs = env.reset()
