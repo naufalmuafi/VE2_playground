@@ -83,3 +83,33 @@ class Pioneer3atEnv(Supervisor, gym.Env):
 
     # Open AI Gym generic
     return np.array([0, 0, 0, 0]).astype(np.float32)
+  
+  def step(self, action):
+    # Execute the action
+    for wheel in self.__wheels:
+      wheel.setVelocity(1.3 if action == 1 else -1.3)
+    
+    super().step(self.__timestep)
+
+    # Observation
+    robot = self.getSelf()
+    endpoint = self.getFromDef("POLE_ENDPOINT")
+    self.state = np.array([robot.getPosition()[0], robot.getVelocity()[0],
+                           self.__pendulum_sensor.getValue(), endpoint.getVelocity()[4]])
+
+    # Done
+    done = bool(
+      self.state[0] < -self.x_threshold or
+      self.state[0] > self.x_threshold or
+      self.state[2] < -self.theta_threshold_radians or
+      self.state[2] > self.theta_threshold_radians
+    )
+
+    # Reward
+    reward = 0 if done else 1
+    
+    obs = self.state.astype(np.float32)
+    
+    truncated = False
+
+    return obs, reward, done, truncated, {}
