@@ -7,14 +7,14 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Fabric.proto"
-EXTERNPROTO "../protos/FourWheelsRobot.proto"
+EXTERNPROTO "D:/Users/Muafi/Documents/NAUFAL MU'AFI/Universitas Gadjah Mada/Skripsi/learn/playground/webots/my_first_simulation/protos/FourWheelsRobot.proto"
 
 WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
   orientation 0.24316220881503875 0.001823750761567873 -0.9699839246798634 3.127042878588287
-  position 1.6886874695592522 0.08916969455081772 0.8966927064287511
+  position 1.8205217123886184 0.09114735652013059 0.9672312824893026
 }
 TexturedBackground {
 }
@@ -234,10 +234,6 @@ Robot {
   controller "four_wheels_avoid_collision"
 }
 FourWheelsRobot {
-  hidden position_0_0 6.782745609475652e-12
-  hidden position_0_1 -6.782675544983489e-12
-  hidden position_0_2 6.783319409301778e-12
-  hidden position_0_3 -6.782781184095729e-12
   translation 0.04986949729063513 -0.32720600270934064 0.03986048964911146
   rotation -1.9837502489378502e-08 -4.789166334810252e-08 0.9999999999999986 2.3561899999997964
 }
