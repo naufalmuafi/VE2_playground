@@ -1,0 +1,82 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/CorrodedMetal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/OsbWood.proto"
+
+WorldInfo {
+  info [
+    "openAI Gym Integration with Stable-Baselines3"
+  ]
+  title "openAI Gym Environment"
+}
+Viewpoint {
+  orientation -0.18962075416955637 0.4358110516538461 0.8798367444273609 0.9185259885596941
+  position -3.8996325657683393 -4.630486146600905 3.0161309385801593
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF AGENT Pioneer3at {
+  controller "openAI_gym"
+  supervisor TRUE
+  extensionSlot [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 0.21
+        minStop -1
+        maxStop 1
+      }
+      device [
+        PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.51
+        rotation 0 1 0 0
+        children [
+          DEF POLE_ENDPOINT Solid {
+            translation 0 0 0.26
+            children [
+              DEF BALL_SHAPE Shape {
+                appearance CorrodedMetal {
+                }
+                geometry Sphere {
+                  radius 0.1
+                  subdivision 3
+                }
+              }
+            ]
+            boundingObject USE BALL_SHAPE
+            physics Physics {
+              density -1
+              mass 0.2
+            }
+          }
+          DEF POLE_SHAPE Shape {
+            appearance OsbWood {
+            }
+            geometry Cylinder {
+              height 0.5
+              radius 0.011
+            }
+          }
+        ]
+        boundingObject USE POLE_SHAPE
+        physics Physics {
+        }
+      }
+    }
+  ]
+}
+Floor {
+  appearance Parquetry {
+    type "light strip"
+  }
+}
