@@ -30,8 +30,8 @@
    - In the `Name` field, give your configuration a name.
    - In the `Script` field, select your Python controller script.
    - In the `Environment variables` section, click `...` and then `+` to add a new environment variable.
-     - Set the `Name` to `DYLD_LIBRARY_PATH`.
-     - Set the `Value` to `WEBOTS_HOME/lib/controller`.
+     - Set the `Name` to `Path`.
+     - Set the `Value` to `F:\Program Files\Webots\lib\controller\;F:\Program Files\Webots\msys64\mingw64\bin\;F:\Program Files\Webots\msys64\mingw64\bin\cpp`.
 
 6. **Develop Your Program**:
 
