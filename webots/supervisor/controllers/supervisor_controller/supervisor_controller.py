@@ -1,4 +1,4 @@
-from controller import Supervisor # type: ignore
+from controller import Supervisor
 
 TIME_STEP = 32
 

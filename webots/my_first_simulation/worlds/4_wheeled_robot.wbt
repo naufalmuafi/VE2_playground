@@ -7,14 +7,14 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/vehicles/protos/abstract/GenericTireAppearance.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Fabric.proto"
-EXTERNPROTO "D:/Users/Muafi/Documents/NAUFAL MU'AFI/Universitas Gadjah Mada/Skripsi/learn/playground/webots/my_first_simulation/protos/FourWheelsRobot.proto"
+EXTERNPROTO "../protos/FourWheelsRobot.proto"
 
 WorldInfo {
   basicTimeStep 16
 }
 Viewpoint {
   orientation 0.24316220881503875 0.001823750761567873 -0.9699839246798634 3.127042878588287
-  position 1.8205217123886184 0.09114735652013059 0.9672312824893026
+  position 1.8572375928389122 0.09169813603596828 0.9868762993695166
 }
 TexturedBackground {
 }
@@ -140,7 +140,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.05 0.06 0
-        rotation -0.9852173070389241 -0.12113370735254109 0.12113415230231032 4.697492812250665
+        rotation -0.9852173070389241 -0.1211337073525412 0.12113415230231032 4.697492812250665
         children [
           DEF WHEEL Shape {
             appearance GenericTireAppearance {
@@ -171,7 +171,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0.05 -0.06 0
-        rotation -0.985217307022737 -0.12113370741836811 0.12113415236813738 4.697492812234238
+        rotation -0.985217307022737 -0.12113370741836806 0.12113415236813738 4.697492812234238
         children [
           USE WHEEL
         ]
@@ -231,7 +231,7 @@ Robot {
   boundingObject USE BODY
   physics Physics {
   }
-  controller "four_wheels_avoid_collision"
+  controller "<extern>"
 }
 FourWheelsRobot {
   translation 0.04986949729063513 -0.32720600270934064 0.03986048964911146
