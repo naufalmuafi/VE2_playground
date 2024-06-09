@@ -15,7 +15,7 @@ WorldInfo {
   title "openAI Gym Environment"
 }
 Viewpoint {
-  orientation -0.18962075416955637 0.4358110516538461 0.8798367444273609 0.9185259885596941
+  orientation -0.18785695079978745 0.4422960599442471 0.876974321969578 0.9020560831622847
   position -3.8996325657683393 -4.630486146600905 3.0161309385801593
 }
 TexturedBackground {
@@ -23,7 +23,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF AGENT Pioneer3at {
-  controller "openAI_gym"
+  controller "pioneer3at_env"
   supervisor TRUE
   extensionSlot [
     HingeJoint {

@@ -1,4 +1,9 @@
-from controller import Robot, DistanceSensor, Motor # type: ignore
+# import setup
+import sys
+
+sys.path.append("F:\\Program Files\\Webots\\lib\\controller\\python")
+
+from controller import Robot, DistanceSensor, Motor
 
 # TIME_STEP is to be used as the simulation time step in milliseconds
 TIME_STEP = 64
@@ -11,9 +16,7 @@ robot = Robot()
 
 # initialize devices
 ps = []
-ps_names = [
-    'ps0', 'ps1', 'ps2', 'ps3', 'ps4', 'ps5', 'ps6', 'ps7'
-]
+ps_names = ["ps0", "ps1", "ps2", "ps3", "ps4", "ps5", "ps6", "ps7"]
 
 # get the sensors
 for i in range(len(ps_names)):
@@ -21,12 +24,12 @@ for i in range(len(ps_names)):
     ps[i].enable(TIME_STEP)
 
 # get the motors
-leftMotor = robot.getDevice('left wheel motor')
-rightMotor = robot.getDevice('right wheel motor')
+leftMotor = robot.getDevice("left wheel motor")
+rightMotor = robot.getDevice("right wheel motor")
 
 # set the target position of the motors
-leftMotor.setPosition(float('inf'))
-rightMotor.setPosition(float('inf'))
+leftMotor.setPosition(float("inf"))
+rightMotor.setPosition(float("inf"))
 
 # set up the motor speeds
 leftMotor.setVelocity(0.0)
@@ -41,15 +44,15 @@ while robot.step(TIME_STEP) != -1:
 
     # print sensor values
     print(f"Sensor values: {ps_values}")
-    
+
     # detect obstacles
-    r = 80.0 # lower the value to detect obstacles further away
+    r = 80.0  # lower the value to detect obstacles further away
     right_obstacle = ps_values[0] > r or ps_values[1] > r or ps_values[2] > r
     left_obstacle = ps_values[5] > r or ps_values[6] > r or ps_values[7] > r
 
-    # process behavior    
+    # process behavior
     # initialize motor speeds at n% of MAX_SPEED
-    n = 0.5    
+    n = 0.5
     left_speed = n * MAX_SPEED
     right_speed = n * MAX_SPEED
 
@@ -64,7 +67,7 @@ while robot.step(TIME_STEP) != -1:
         left_speed = -n * MAX_SPEED
         right_speed = n * MAX_SPEED
         print("turn left\n")
-    
+
     # write actuators inputs
     leftMotor.setVelocity(left_speed)
     rightMotor.setVelocity(right_speed)
