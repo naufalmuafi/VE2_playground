@@ -34,7 +34,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         self.observation_space = gym.spaces.Box(-high, high, dtype=np.float32)
         self.state = None
         self.spec = gym.envs.registration.EnvSpec(
-            id="WebotsEnv-v0", max_episode_steps=max_episode_steps
+            id="Pioneer3atEnv-v0", max_episode_steps=max_episode_steps
         )
 
         # Environment specific
@@ -131,7 +131,7 @@ def wait_for_y():
 
 
 register(
-    id="WebotsEnv-v0",
+    id="Pioneer3atEnv-v0",
     entry_point=make_env,
     max_episode_steps=1000,
 )
@@ -139,7 +139,7 @@ register(
 
 def main():
     # Initialize the environment
-    env = gym.make("WebotsEnv-v0")
+    env = gym.make("Pioneer3atEnv-v0")
 
     print(f"Check the environment: {env}...")
     check_env(env)
