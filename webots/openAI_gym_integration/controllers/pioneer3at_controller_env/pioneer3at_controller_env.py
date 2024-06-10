@@ -120,6 +120,16 @@ def make_env():
     return OpenAIGymEnvironment()
 
 
+def wait_for_y():
+    while True:
+        user_input = input("Press 'Y' to continue: ")
+        if user_input.upper() == "Y":
+            print("Continuing process...\n\n")
+            break
+        else:
+            print("Invalid input. Please press 'Y'.")
+
+
 register(
     id="WebotsEnv-v0",
     entry_point=make_env,
@@ -141,7 +151,8 @@ def main():
 
     # Replay
     print("Training is finished, press `Y` for replay...")
-    env.wait_keyboard()
+    wait_for_y()
+    print("OK!")
 
     print("Replaying the model...")
     obs, _ = env.reset()

@@ -38,7 +38,7 @@ DEF AGENT Pioneer3at {
         }
       ]
       endPoint Solid {
-        translation 0 0 0.51
+        translation 3.469446951953614e-18 0 0.5100000000000487
         rotation 0 1 0 0
         children [
           DEF POLE_ENDPOINT Solid {
