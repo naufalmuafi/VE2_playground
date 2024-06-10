@@ -13,10 +13,11 @@ This repository contains various projects and examples related to reinforcement 
   - [3_tensorboard-integration](#3_tensorboard-integration)
   - [4_custom-env](#4_custom-env)
   - [webots](#webots)
-- [License](#license)
+- [Setup Webots with PyCharm](#setting-up-pycharm-in-windows-for-a-webots-project)
 
 ## Project Structure
 
+.
 ├── .idea
 ├── 1_basic-usage
 ├── 2_atari-games
@@ -94,7 +95,7 @@ Custom environment setups for specific projects or experiments.
 
 Setup and examples for using the Webots robot simulator with reinforcement learning projects.
 
-# Setting Up PyCharm in Windows for a Webots Project
+## Setting Up PyCharm in Windows for a Webots Project
 
 1. **Navigate to the Project Directory**:
 
