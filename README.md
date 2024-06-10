@@ -17,16 +17,6 @@ This repository contains various projects and examples related to reinforcement 
 
 ## Project Structure
 
-.
-├── .idea
-├── 1_basic-usage
-├── 2_atari-games
-├── 3_tensorboard-integration
-├── 4_custom-env
-├── pg_venv
-├── webots
-└── .gitignore
-
 - **.idea**: Project-specific settings for PyCharm.
 - **1_basic-usage**: Basic usage examples.
 - **2_atari-games**: Examples related to Atari games.
