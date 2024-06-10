@@ -10,11 +10,11 @@ try:
 except ImportError:
     sys.exit(
         "Please make sure you have all dependencies installed. "
-        'Run: "pip install numpy gymnasium stable_baselines3"'
+        "Run: `pip install numpy gymnasium stable_baselines3`"
     )
 
 
-class OpenAIGymEnvironment(Supervisor, gym.Env):
+class Pioneer3atEnv(Supervisor, gym.Env):
     def __init__(self, max_episode_steps=1000):
         super().__init__()
 
@@ -41,14 +41,6 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         self.__timestep = int(self.getBasicTimeStep())
         self.__wheels = []
         self.__pendulum_sensor = None
-
-        # Tools
-        self.keyboard = self.getKeyboard()
-        self.keyboard.enable(self.__timestep)
-
-    def wait_keyboard(self):
-        while self.keyboard.getKey() != ord("Y"):
-            super().step(self.__timestep)
 
     def reset(self, seed=None, options=None):
         # Reset the simulation
@@ -84,6 +76,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         # Execute the action
         for wheel in self.__wheels:
             wheel.setVelocity(1.3 if action == 1 else -1.3)
+
         super().step(self.__timestep)
 
         # Observation
@@ -117,7 +110,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
 
 # Register the environment
 def make_env():
-    return OpenAIGymEnvironment()
+    return Pioneer3atEnv()
 
 
 def wait_for_y():
