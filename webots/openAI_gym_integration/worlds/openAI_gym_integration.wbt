@@ -23,7 +23,7 @@ TexturedBackground {
 TexturedBackgroundLight {
 }
 DEF AGENT Pioneer3at {
-  controller "pioneer3at_env"
+  controller "openAI_gym"
   supervisor TRUE
   extensionSlot [
     HingeJoint {
