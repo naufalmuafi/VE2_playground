@@ -109,7 +109,7 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         # Reward
         reward = 0 if done else 1
 
-        return self.state.astype(np.float32), reward, done, {}, {}
+        return self.state.astype(np.float32), reward, done, False, {}
 
     def render(self, mode="human"):
         pass
@@ -130,9 +130,12 @@ register(
 def main():
     # Initialize the environment
     env = gym.make("WebotsEnv-v0")
+
+    print(f"Check the environment: {env}...")
     check_env(env)
 
     # Train
+    print("Training the model...")
     model = PPO("MlpPolicy", env, n_steps=2048, verbose=1)
     model.learn(total_timesteps=1e5)
 
@@ -140,6 +143,7 @@ def main():
     print("Training is finished, press `Y` for replay...")
     env.wait_keyboard()
 
+    print("Replaying the model...")
     obs, _ = env.reset()
     for _ in range(100000):
         action, _states = model.predict(obs)
