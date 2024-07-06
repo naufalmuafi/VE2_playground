@@ -36,7 +36,7 @@ def test_PPO(render=True):
 
     # run a test
     obs, _ = env.reset()
-    for _ in range(100000):
+    for _ in range(1000):
         action, _states = model.predict(obs)
         obs, reward, done, _, _ = env.step(action)
         print(obs, reward, done)

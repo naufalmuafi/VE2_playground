@@ -146,8 +146,8 @@ def main():
 
     # Train
     print("Training the model...")
-    model = PPO("MlpPolicy", env, n_steps=2048, verbose=1)
-    model.learn(total_timesteps=1e5)
+    model = PPO("MlpPolicy", env, verbose=1)
+    model.learn(total_timesteps=1000)
 
     # Replay
     print("Training is finished, press `Y` for replay...")
