@@ -15,7 +15,7 @@ except ImportError:
     )
 
 
-class Pioneer3atEnv(Env):
+class Pioneer3atEnv(Supervisor, Env):
     def __init__(self, max_episode_steps: int = 1000) -> None:
         super().__init__()
 
@@ -126,7 +126,7 @@ def wait_for_y():
 
 # register the environment
 register(
-    id="Pioneer3atEnv-v1",
-    entry_point=Pioneer3atEnv(),
+    id="Pioneer3at-v1",
+    entry_point=lambda: Pioneer3atEnv(),
     max_episode_steps=1000,
 )

@@ -26,8 +26,13 @@ def create_dir(model_name: str = "models", log_name: str = "logs") -> Tuple[str,
 
 def check_environment(env: gym.Env) -> None:
     # check the environment
-    print(f"Check the environment: {env}...")
-    check_env(env)
+    try:
+        print(f"Check the environment: {env}...")
+        check_env(env)
+    except Exception as e:
+        print(f"Environment check failed: {e}")
+        print("Please check the environment and try again.")
+        exit(1)
 
 
 def train_PPO(env: gym.Env, model_dir: str, log_dir: str, timesteps: int) -> None:
