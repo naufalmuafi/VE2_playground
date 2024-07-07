@@ -1,23 +1,36 @@
 import os
-import env
+import env_pioneer3at
 import gymnasium as gym
+from typing import Tuple
 from stable_baselines3 import PPO
+from stable_baselines3.common.env_checker import check_env
 
 
 TIMESTEPS = 1000
 
 # where to store trained model and logs
-path: str = {"model": "models", "log": "logs"}
+model_dir_name = "models"
+log_dir_name = "logs"
 
-# create the folder from path
-os.makedirs(path["model"], exist_ok=True)
-os.makedirs(path["log"], exist_ok=True)
+# define the environment
+env = gym.make("Pioneer3at-v1")
 
 
-def train_PPO(model_dir: str, log_dir: str, timesteps: int) -> None:
-    # define the environment
-    env = gym.make("Pioneer3at-v1")
+def create_dir(model_name: str = "models", log_name: str = "logs") -> Tuple[str, str]:
+    # create the folder from path
+    os.makedirs(model_name, exist_ok=True)
+    os.makedirs(log_name, exist_ok=True)
 
+    return model_name, log_name
+
+
+def check_environment(env: gym.Env) -> None:
+    # check the environment
+    print(f"Check the environment: {env}...")
+    check_env(env)
+
+
+def train_PPO(env: gym.Env, model_dir: str, log_dir: str, timesteps: int) -> None:
     # use Proximal Policy Optimization (PPO) algorithm
     # use MLP policy for observation space 1D-vector
     print("Training the model with PPO...")
@@ -28,13 +41,14 @@ def train_PPO(model_dir: str, log_dir: str, timesteps: int) -> None:
     model.save(f"{model_dir}/ppo_{timesteps}")
 
 
-def test_PPO(model_dir: str, timesteps: int = TIMESTEPS) -> None:
-    # define the environment
-    env = gym.make("Pioneer3at-v1")
-
+def test_PPO(env: gym.Env, model_dir: str, timesteps: int = TIMESTEPS) -> None:
     # load the model
-    model = PPO.load(f"{model_dir}/ppo_{timesteps}", env=env)
-    print("Load Model Successful") if model else print("Failed to Load Model")
+    try:
+        model = PPO.load(f"{model_dir}/ppo_{timesteps}", env=env)
+    except FileNotFoundError:
+        print("Model not found. Please train the model first.")
+
+    print("Load Model Successful") if model else None
 
     # run a test
     obs, _ = env.reset()
@@ -62,11 +76,17 @@ def wait_for_y() -> None:
 
 # main program
 if __name__ == "__main__":
+    # create directories
+    model_dir, log_dir = create_dir(model_dir_name, log_dir_name)
+
+    # check the environment
+    check_environment(env)
+
     # train and test the model with A2C algorithm
-    train_PPO(path["model"], path["log"], TIMESTEPS)
+    train_PPO(env, model_dir, log_dir, TIMESTEPS)
 
     print("Training is finished, press `Y` for replay...")
     wait_for_y()
     print("Test the Environment with Predicted Value")
 
-    test_PPO(path["model"], TIMESTEPS)
+    test_PPO(env, model_dir, TIMESTEPS)
