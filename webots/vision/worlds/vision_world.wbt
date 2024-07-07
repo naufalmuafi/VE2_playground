@@ -54,3 +54,20 @@ DEF RED_CONE Solid {
   ]
   name "red_cone"
 }
+DEF RED_SPHERE Solid {
+  translation 0.7 -1 0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.3
+        subdivision 2
+      }
+    }
+  ]
+  name "red_sphere"
+}
