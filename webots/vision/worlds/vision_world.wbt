@@ -1,0 +1,56 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  info [
+    "use OpenCV to process the robot's camera image"
+  ]
+  title "openCV Integration"
+}
+Viewpoint {
+  orientation -0.2858343003732439 0.27776281482403814 0.9171404316849004 1.6258070210565463
+  position -0.4271549689420475 -5.123397152149526 3.536204548537998
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  rotation 0 0 1 1.5708
+  floorSize 3 4
+}
+E-puck {
+  translation -1.9 0 0
+  camera_width 240
+  camera_height 180
+  camera_antiAliasing TRUE
+  turretSlot [
+    DEF VISION Display {
+      name "proc_im_display"
+      width 240
+      height 180
+    }
+  ]
+}
+DEF RED_CONE Solid {
+  translation 0.4 0.17 0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cone {
+        bottomRadius 0.2
+        height 0.6
+        subdivision 24
+      }
+    }
+  ]
+  name "red_cone"
+}
