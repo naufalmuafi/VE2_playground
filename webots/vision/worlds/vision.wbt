@@ -12,7 +12,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation -0.34799915062186493 0.35859445570590753 0.8662024056209061 1.7219399834229463
-  position 0.08380676658857433 -4.336955160319583 4.084853616293556
+  position -1.8778268744188968 -0.2168311417828638 0.23787590001913061
 }
 TexturedBackground {
 }
@@ -23,8 +23,11 @@ RectangleArena {
   floorSize 3 4
 }
 E-puck {
-  translation -1.9 0 0
-  controller "vision"
+  translation -1.8999999999032264 1.7815766073760362e-11 -6.391454876122742e-05
+  rotation 0.9998611885792704 -0.01666143968542092 6.767118895097775e-07 1.1908991881584543e-07
+  controllerArgs [
+    ""
+  ]
   camera_width 240
   camera_height 180
   camera_antiAliasing TRUE
@@ -282,4 +285,7 @@ DEF WHITE_SPHERE Solid {
     }
   ]
   name "white sphere"
+}
+E-puck {
+  name "e-puck(1)"
 }
