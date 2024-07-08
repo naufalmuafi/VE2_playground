@@ -288,6 +288,9 @@ Robot {
           ]
         }
       ]
+      recognitionColors [
+        1 0 0
+      ]
       fieldOfView 1.047
       width 80
       height 60
