@@ -5,9 +5,12 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/drinks/protos/Can.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/fruits/protos/Apple.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/fruits/protos/Orange.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/breakfast/protos/JamJar.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/breakfast/protos/CerealBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/obstacles/protos/OilBarrel.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/kitchen/breakfast/protos/BiscuitBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/toys/protos/RubberDuck.proto"
 
 WorldInfo {
   info [
@@ -16,71 +19,107 @@ WorldInfo {
   title "Camera Image Recognition"
 }
 Viewpoint {
-  orientation 0.4958124374780919 0.010660951898188492 -0.8683641925751301 3.286909324731093
-  position 1.4900753034353165 -0.22501457698418567 2.572708402786278
+  orientation 0.3593668066583357 -0.027767781981431972 -0.9327831733881257 3.0249769164763864
+  position 2.31346691628409 0.3564303580705131 1.9856188541136333
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  floorSize 1.5 1.5
 }
 Can {
-  translation -0.267626 -0.290201 0.06096265906419197
-  rotation -1.2534346758741759e-17 -2.710565350306608e-18 1 3.14159
+  translation 0.267626 0.290201 0.06
+}
+Can {
+  translation -0.326272 -0.341474 0.06
+  name "can(1)"
 }
 Apple {
-  translation 0.221872 -0.277666 0.049764560227418556
+  translation -0.260886 0.22946 0.05
 }
 Apple {
-  translation 0.428276 -0.291241 0.049764560227418556
+  translation -0.621889 0.56252 0.05
   name "apple(1)"
 }
+DEF ORANGE Solid {
+  translation -0.002188 -0.063045 0
+  children [
+    Orange {
+      translation -0.187654 0.182317 0.05
+    }
+  ]
+  name "orange"
+  recognitionColors [
+    0.988235 0.686275 0.243137
+  ]
+}
+DEF ORANGE Solid {
+  translation 0.085807 -0.503005 0
+  children [
+    Orange {
+      translation -0.187654 0.182317 0.05
+    }
+  ]
+  name "orange(1)"
+  recognitionColors [
+    0.988235 0.686275 0.243137
+  ]
+}
 JamJar {
-  translation -0.314033 0.288298 0
-  rotation 0 0 -1 1.0472
+  translation -0.33681 0.078775 0
   mass 0
 }
-BiscuitBox {
-  translation 0.372915 -0.247523 0.09
-  rotation 0.6947461893666473 -0.1861560507404686 -0.6947471893669199 -2.773495
-  size 0.17 0.33 0.04
+JamJar {
+  translation 0.314033 -0.288298 0
+  rotation 0 0 1 2.094395
+  name "jam jar(1)"
   mass 0
+}
+CerealBox {
+  translation -0.43865 0.194464 0
+  rotation 0 0 -1 0.523599
+}
+CerealBox {
+  translation -0.450259 0.4153 0
+  rotation 0 0 -1 0.785399
+  name "cereal box(1)"
 }
 OilBarrel {
-  translation 0.122868 0.40231 0.07
-  rotation 0 0 1 1.5708
+  translation -0.28712 -0.211927 0.07
+  rotation 0 0 1 -1.5707953071795862
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.182198 0.278521 0.07
-  rotation 0 0 1 1.5708
+  translation -0.240466 -0.485864 0.07
+  rotation 0 0 1 -1.5707953071795862
   name "oil barrel(1)"
   height 0.14
   radius 0.06
 }
 OilBarrel {
-  translation 0.318097 0.364876 0.07
-  rotation 0 0 1 1.5708
+  translation -0.464787 -0.437183 0.07
+  rotation 0 0 1 -1.5707953071795862
   name "oil barrel(2)"
   height 0.14
   radius 0.06
 }
-OilBarrel {
-  translation 0.368241 0.196561 0.07
-  rotation 0 0 1 1.5708
-  name "oil barrel(3)"
-  height 0.14
-  radius 0.06
+BiscuitBox {
+  translation 0.538412 -0.274668 0.04
+  rotation 0.6947480600338772 -0.18615701608601462 -0.6947450600336179 -2.7734953071795863
+}
+RubberDuck {
+  translation -0.243817 0.384468 0.01
+  rotation 0 0 1 -2.3561953071795863
 }
 Robot {
-  translation 0.0005755890779242756 -0.0010170285214919634 -0.00023423024023570826
-  rotation 0.014147784387792047 -0.01858670655221679 -0.99972715004468 -1.3015285753763113
+  translation 0.08518 0.000516 0
+  rotation 0 0 1 2
   children [
     Pose {
       translation 0 0 0.0415
-      rotation 0 0 1 -1.570796
       children [
         Shape {
           appearance PBRAppearance {
@@ -97,7 +136,6 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -105.14726530639291
         axis 0 1 0
         anchor 0 0 0.025
       }
@@ -111,11 +149,11 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.04499999999999998 0.025
-        rotation 0.5403376973642151 -0.5403378611612623 0.6450350134704398 4.28734681144242
+        translation 0 0.045 0.025
+        rotation 0 -1 0 4.98467
         children [
           DEF WHEEL Pose {
-            rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+            rotation -1 0 0 1.57
             children [
               Shape {
                 appearance PBRAppearance {
@@ -137,13 +175,10 @@ Robot {
           density -1
           mass 0.05
         }
-        linearVelocity -0.009388881701432013 -0.03250475269174251 -2.4522519623822742e-08
-        angularVelocity 1.440761392957043 -0.4177326973366057 0.7551834663903072
       }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 105.1472319259104
         axis 0 1 0
         anchor 0 0 0.025
       }
@@ -158,15 +193,13 @@ Robot {
       ]
       endPoint Solid {
         translation 0 -0.045 0.025
-        rotation -0.5717042965275357 0.5717042425272896 0.5884797841967501 4.205403954753532
+        rotation 0 -1 0 4.58735
         children [
           USE WHEEL
         ]
         name "right wheel"
         boundingObject USE WHEEL
         physics USE PHYSICS_WHEEL
-        linearVelocity 0.009470789772663586 0.03250422781585519 3.372946906665724e-08
-        angularVelocity -1.4407593970060306 0.4177307372091506 0.7551848868725771
       }
     }
     DistanceSensor {
@@ -174,7 +207,7 @@ Robot {
       rotation 0 0 -1 -0.499205
       children [
         DEF SENSOR Pose {
-          rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
+          rotation 0 1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -260,7 +293,7 @@ Robot {
       children [
         Pose {
           translation -0.015 0 0
-          rotation -0.5771968951617173 -0.577656895078166 -0.5771968951617173 -2.093935
+          rotation 0 -1 0 1.57
           children [
             Shape {
               appearance PBRAppearance {
@@ -282,13 +315,18 @@ Robot {
       recognition Recognition {
         frameColor 0.929412 0.831373 0
         frameThickness 3
+        segmentation TRUE
       }
+    }
+    Display {
+      name "segmented image display"
+      width 256
+      height 128
     }
   ]
   name "MyBot"
   boundingObject Pose {
     translation 0 0 0.0415
-    rotation 0 0 1 -1.570796
     children [
       USE BODY
     ]
@@ -297,7 +335,5 @@ Robot {
     density -1
     mass 0.5
   }
-  controller "camera_recognition_py"
-  linearVelocity -0.0002963951241824416 9.734924955559501e-05 1.2467348994967427e-08
-  angularVelocity 9.936396900912548e-07 -9.726487949513764e-07 0.7510920208211427
+  controller "camera_segmentation"
 }
