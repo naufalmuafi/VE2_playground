@@ -1,16 +1,87 @@
 #VRML_SIM R2023b utf8
+
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+
 WorldInfo {
+  info [
+    "Simple Navigation to a Target using Camera"
+  ]
+  title "Simple Navigation"
 }
 Viewpoint {
-  orientation -0.5773 0.5773 0.5773 2.0944
-  position 0 0 10
+  orientation -0.3909362948398868 0.0021111071073327916 0.9204153174538342 3.1316592423210485
+  position 5.6465163893797 -0.22135936349491664 5.325888757164619
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  floorSize 5 5
+}
+Solid {
+  translation 2.18741 2.106 -3.55271e-15
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 0.5
+        metalness 0.1
+      }
+      geometry Sphere {
+        radius 0.1
+      }
+    }
+  ]
+  name "Target"
+}
+Robot {
+  translation -1.98928 -0.00578352 -8.88178e-16
+  rotation 0 0 1 3.141592653589793
+  children [
+    Camera {
+      translation 0.1 0 0.2
+      rotation 0 -1 0 1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.01
+            radius 0.01
+          }
+        }
+      ]
+      fieldOfView 1.0472
+      width 256
+      height 256
+      antiAliasing TRUE
+      recognition Recognition {
+        frameColor 0.929412 0.831373 0
+        frameThickness 3
+        segmentation TRUE
+      }
+    }
+    Solid {
+      translation 0 0 0.1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.1 0.1 0.1
+            roughness 0.9
+            metalness 0.1
+          }
+          geometry DEF BODY Cylinder {
+            height 0.2
+            radius 0.1
+          }
+        }
+      ]
+    }
+  ]
+  name "NavigatorBot"
 }
