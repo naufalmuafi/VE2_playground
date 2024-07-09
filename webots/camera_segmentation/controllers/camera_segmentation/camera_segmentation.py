@@ -23,15 +23,15 @@ class Controller(Robot):
     def __init__(self):
         super(Controller, self).__init__()
         self.timeStep = 64
-        self.camera = self.getDevice('camera')
+        self.camera = self.getDevice("camera")
         self.camera.enable(self.timeStep)
         self.camera.recognitionEnable(self.timeStep)
         self.camera.enableRecognitionSegmentation()
-        self.display = self.getDevice('segmented image display')
-        self.left_motor = self.getDevice('left wheel motor')
-        self.right_motor = self.getDevice('right wheel motor')
-        self.left_motor.setPosition(float('inf'))
-        self.right_motor.setPosition(float('inf'))
+        self.display = self.getDevice("segmented image display")
+        self.left_motor = self.getDevice("left wheel motor")
+        self.right_motor = self.getDevice("right wheel motor")
+        self.left_motor.setPosition(float("inf"))
+        self.right_motor.setPosition(float("inf"))
         self.left_motor.setVelocity(-1.5)
         self.right_motor.setVelocity(1.5)
 
@@ -39,11 +39,16 @@ class Controller(Robot):
         width = self.camera.getWidth()
         height = self.camera.getHeight()
         while self.step(self.timeStep) != -1:
-            if self.camera.isRecognitionSegmentationEnabled() and self.camera.getRecognitionSamplingPeriod() > 0:
+            if (
+                self.camera.isRecognitionSegmentationEnabled()
+                and self.camera.getRecognitionSamplingPeriod() > 0
+            ):
                 # Get the segmented image and display it in the Display
                 data = self.camera.getRecognitionSegmentationImage()
                 if data:
-                    segmented_image = self.display.imageNew(data, Display.BGRA, width, height)
+                    segmented_image = self.display.imageNew(
+                        data, Display.BGRA, width, height
+                    )
                     self.display.imagePaste(segmented_image, 0, 0, False)
                     self.display.imageDelete(segmented_image)
 
