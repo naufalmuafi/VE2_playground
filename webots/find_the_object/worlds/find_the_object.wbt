@@ -309,4 +309,5 @@ Robot {
     mass 0.5
   }
   controller "finder_controller"
+  supervisor TRUE
 }
