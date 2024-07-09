@@ -335,5 +335,5 @@ Robot {
     density -1
     mass 0.5
   }
-  controller "camera_segmentation"
+  controller "finder_controller"
 }

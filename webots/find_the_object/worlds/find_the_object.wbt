@@ -3,6 +3,7 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/fruits/protos/Apple.proto"
 
 WorldInfo {
   info [
@@ -11,54 +12,276 @@ WorldInfo {
   title "Simple Navigation"
 }
 Viewpoint {
-  orientation -0.3909362948398868 0.0021111071073327916 0.9204153174538342 3.1316592423210485
-  position 5.6465163893797 -0.22135936349491664 5.325888757164619
+  orientation -0.32037070126149175 -0.16841010357902028 0.93220204397208 4.052886142565406
+  position 1.1660499186212234 1.571278924624266 1.546890087532802
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  floorSize 5 5
+  floorSize 1.5 1.5
 }
-Solid {
-  translation 2.18741 2.106 -3.55271e-15
+DEF TARGET2 Apple {
+  translation 0.130828 0.266603 0.0497646
+  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
+}
+DEF TARGET2 Apple {
+  translation -0.183394 -0.409668 0.0497646
+  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
+  name "apple(1)"
+}
+DEF TARGET Solid {
+  translation -0.485226 0.537977 0.0491782
+  rotation 0.9762222877629937 -0.04829876452757952 0.211322677959315 -2.1367300053676272
   children [
-    Shape {
+    DEF TARGET_SHAPE Shape {
       appearance PBRAppearance {
         baseColor 1 0 0
-        roughness 0.5
-        metalness 0.1
+        roughness 1
+        metalness 0
       }
       geometry Sphere {
-        radius 0.1
+        radius 0.05
+        subdivision 2
       }
     }
   ]
   name "Target"
+  boundingObject USE TARGET_SHAPE
+  physics Physics {
+    damping Damping {
+    }
+  }
+  recognitionColors [
+    0.666667 0 0
+  ]
+}
+DEF TARGET Solid {
+  translation 0.136021 -0.210544 0.0491782
+  rotation 0.9762222877629937 -0.04829876452757952 0.211322677959315 -2.1367300053676272
+  children [
+    DEF TARGET_SHAPE Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  name "Target(1)"
+  boundingObject USE TARGET_SHAPE
+  physics Physics {
+    damping Damping {
+    }
+  }
+  recognitionColors [
+    0.666667 0 0
+  ]
 }
 Robot {
-  translation -1.98928 -0.00578352 -8.88178e-16
-  rotation 0 0 1 3.141592653589793
+  translation -0.590062 -0.0302339 -0.00023423
+  rotation 0 0 1 3
   children [
-    Camera {
-      translation 0.1 0 0.2
-      rotation 0 -1 0 1.57
+    Pose {
+      translation 0 0 0.0415
       children [
         Shape {
           appearance PBRAppearance {
+            baseColor 0.0820075 0.364731 0.8
             roughness 1
             metalness 0
           }
-          geometry Cylinder {
-            height 0.01
-            radius 0.01
+          geometry DEF BODY Cylinder {
+            height 0.08
+            radius 0.045
           }
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -44.48695883906002
+        axis 0 1 0
+        anchor 0 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "left wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.04500000000000004 0.025
+        rotation 0 1 0 0.793853618376671
+        children [
+          DEF WHEEL Pose {
+            rotation -1 0 0 1.57
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.01
+                  radius 0.025
+                }
+              }
+            ]
+          }
+        ]
+        name "left wheel"
+        boundingObject USE WHEEL
+        physics DEF PHYSICS_WHEEL Physics {
+          density -1
+          mass 0.05
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 44.48698629746116
+        axis 0 1 0
+        anchor 0 0 0.025
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+          consumptionFactor 70
+        }
+        PositionSensor {
+          name "right wheel sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.04500000000000006 0.025
+        rotation 0 1 0 2.2005244543836384
+        children [
+          USE WHEEL
+        ]
+        name "right wheel"
+        boundingObject USE WHEEL
+        physics USE PHYSICS_WHEEL
+      }
+    }
+    DistanceSensor {
+      translation 0.042 0.02 0.063
+      rotation 0 0 -1 -0.499205
+      children [
+        DEF SENSOR Pose {
+          rotation 0 1 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.975691 0.981481 0.0252992
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds0"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    DistanceSensor {
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.500795
+      children [
+        USE SENSOR
+      ]
+      name "ds1"
+      lookupTable [
+        0 1024 0
+        0.05 1024 0
+        0.15 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        baseColorMap ImageTexture {
+          url [
+            "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/samples/devices/worlds/textures/mybot.png"
+          ]
+        }
+        roughness 0.5
+        metalness 0
+      }
+      geometry IndexedFaceSet {
+        coord Coordinate {
+          point [
+            0.0435 -0.015 0.038
+            0.0435 -0.015 0.023
+            0.0455 0 0.023
+            0.0435 0.015 0.023
+            0.0435 0.015 0.038
+            0.0455 0 0.038
+          ]
+        }
+        texCoord TextureCoordinate {
+          point [
+            0 0
+            0.5 0
+            1 0
+            1 1
+            0.5 1
+            0 1
+          ]
+        }
+        coordIndex [
+          0, 1, 2, 5, -1, 5, 2, 3, 4, -1
+        ]
+        texCoordIndex [
+          5, 0, 1, 4, -1, 4, 1, 2, 3, -1
+        ]
+        creaseAngle 0.9
+      }
+    }
+    Camera {
+      translation 0.04 0 0.0915
+      children [
+        Pose {
+          translation -0.015 0 0
+          rotation 0 -1 0 1.57
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.03
+                radius 0.01
+              }
+            }
+          ]
         }
       ]
       fieldOfView 1.0472
       width 256
-      height 256
+      height 128
       antiAliasing TRUE
       recognition Recognition {
         frameColor 0.929412 0.831373 0
@@ -66,22 +289,22 @@ Robot {
         segmentation TRUE
       }
     }
-    Solid {
-      translation 0 0 0.1
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.1 0.1 0.1
-            roughness 0.9
-            metalness 0.1
-          }
-          geometry DEF BODY Cylinder {
-            height 0.2
-            radius 0.1
-          }
-        }
-      ]
+    Display {
+      name "segmented image display"
+      width 256
+      height 128
     }
   ]
-  name "NavigatorBot"
+  name "MyBot"
+  boundingObject Pose {
+    translation 0 0 0.0415
+    children [
+      USE BODY
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "finder_controller"
 }
