@@ -140,6 +140,26 @@ class FTO_Env(Supervisor, Env):
         # Return the observation, reward, done, truncation, and info
         return new_obs, reward, done, truncation, info
 
+    def calculate_reward(self) -> float:
+        # calculate the distance between the robot and the target
+        # robot_position = self.robot_node.getField("translation").getSFVec3f()
+        robot_position = self.robot_node.getPosition()
+        distances = [
+            np.linalg.norm(
+                np.array(robot_position[:2]) - np.array(target.getPosition()[:2])
+            )
+            for target in self.targets
+        ]
+
+        # reward function
+        if self.is_target_visible():
+            reward = -min(distances)
+            # reward = 1 - (min(distances) / self.max_distance)
+        else:
+            reward = -0.1
+
+        return reward
+
     def render(self, mode: str = "human") -> None:
         pass
 
