@@ -84,6 +84,38 @@ class FTO_Env(Supervisor, Env):
                     self.display.imagePaste(segmented_image, 0, 0, False)
                     self.display.imageDelete(segmented_image)
 
+    def reset(self, seed: Any, options: Any) -> Tuple[np.ndarray, dict]:
+        # Reset the simulation
+        self.simulationResetPhysics()
+        self.simulationReset()
+        super().step(self.__timestep)
+
+        # reset robot's position and orientation
+        self.robot_node.getField("translation").setSFVec3f(
+            [-0.5912347141931845, -0.03026246706094393, -0.00023420748536638614]
+        )
+        self.robot_node.getField("rotation").setSFRotation(
+            [-0.014121838568203569, -0.044720364276457, 0.9988997260458302, 3]
+        )
+        self.left_motor.setVelocity(0.0)
+        self.right_motor.setVelocity(0.0)
+
+        info = {}
+
+        return self.get_observation(), info
+
+    def get_observation(self) -> np.ndarray:
+        # Get camera image as a buffer
+        img = self.camera.getImage()
+        # Convert the buffer to a numpy array and reshape it
+        img = np.frombuffer(img, dtype=np.uint8).reshape(
+            (self.camera.getHeight(), self.camera.getWidth(), 4)
+        )
+        # Drop the alpha channel
+        img = img[:, :, :3]
+
+        return img
+
 
 # helper function to wait for user input
 def wait_for_y():
