@@ -52,6 +52,7 @@ def test_PPO(env: gym.Env, model_dir: str, timesteps: int = TIMESTEPS) -> None:
         model = PPO.load(f"{model_dir}/ppo_{timesteps}", env=env)
     except FileNotFoundError:
         print("Model not found. Please train the model first.")
+        return
 
     print("Load Model Successful") if model else None
 
