@@ -116,6 +116,33 @@ class FTO_Env(Supervisor, Env):
 
         return img
 
+    def step(self, action: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, dict]:
+        # Apply the action to set the velocity of the motors
+        left_speed, right_speed = action
+        self.left_motor.setVelocity(left_speed)
+        self.right_motor.setVelocity(right_speed)
+
+        # Step the simulation
+        super().step(self.__timestep)
+
+        # Get the new observation
+        new_obs = self.get_observation()
+
+        # Calculate the reward
+        reward = self.calculate_reward()
+
+        # Check if the episode is done
+        done = self.is_done()
+
+        truncation = False
+        info = {}
+
+        # Return the observation, reward, done, truncation, and info
+        return new_obs, reward, done, truncation, info
+
+    def render(self, mode: str = "human") -> None:
+        pass
+
 
 # helper function to wait for user input
 def wait_for_y():
