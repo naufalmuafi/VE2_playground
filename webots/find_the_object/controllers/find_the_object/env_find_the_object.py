@@ -160,6 +160,24 @@ class FTO_Env(Supervisor, Env):
 
         return reward
 
+    def is_done(self) -> bool:
+        robot_position = self.robot_node.getPosition()
+        distances = [
+            np.linalg.norm(
+                np.array(robot_position[:2]) - np.array(target.getPosition()[:2])
+            )
+            for target in self.targets
+        ]
+
+        return min(distances) < 0.1
+
+    def is_target_visible(self) -> bool:
+        # check if the target is visible in the camera image
+        for obj in self.camera.getRecognitionObjects():
+            if obj.get_colors() == [0.666667, 0, 0]:  # Target color (red)
+                return True
+        return False
+
     def render(self, mode: str = "human") -> None:
         pass
 
