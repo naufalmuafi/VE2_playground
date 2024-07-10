@@ -70,6 +70,7 @@ def test_PPO(env: gym.Env, model_dir: str, timesteps: int = TIMESTEPS) -> None:
         print("Test Successful") if i == timesteps else None
 
 
+# helper function to wait for user input
 def wait_for_y() -> None:
     while True:
         user_input = input("Press 'Y' to continue: ")

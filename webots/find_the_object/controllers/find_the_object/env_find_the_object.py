@@ -23,7 +23,7 @@ except ImportError:
     )
 
 
-class FTO_Env(Robot, Supervisor, Env):
+class FTO_Env(Supervisor, Env):
     def __init__(self):
         # Initialize the Robot class
         super().__init__()
@@ -33,18 +33,6 @@ class FTO_Env(Robot, Supervisor, Env):
 
         # Set the time step
         self.__timestep: int = int(self.getBasicTimeStep())
-
-        # gym environment specification
-        high: np.ndarray = np.array(
-            [
-                self.camera.getWidth(),
-                self.camera.getHeight(),
-                3,
-            ],
-        )
-
-        # set the speed of the motors
-        self.speed = 1.5
 
         # Get the camera device
         self.camera = self.getDevice("camera")
@@ -60,8 +48,22 @@ class FTO_Env(Robot, Supervisor, Env):
         self.right_motor = self.getDevice("right wheel motor")
         self.left_motor.setPosition(float("inf"))
         self.right_motor.setPosition(float("inf"))
-        self.left_motor.setVelocity(-self.speed)
-        self.right_motor.setVelocity(self.speed)
+        self.left_motor.setVelocity(0.0)
+        self.right_motor.setVelocity(0.0)
+
+        # Set the action and observation spaces
+        self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32)
+        self.observation_space = spaces.Box(
+            low=0,
+            high=255,
+            shape=(self.camera.getHeight(), self.camera.getWidth(), 3),
+            dtype=np.uint8,
+        )
+
+        # Initialize robot and target positions
+        self.robot_node = self.getDevice("MyBot")
+        self.targets = [self.getDevice("target_1"), self.getDevice("target_2")]
+        self.max_distance = np.sqrt(1.5**2 + 1.5**2)  # Assuming a 1.5x1.5 arena
 
     def run(self):
         width = self.camera.getWidth()

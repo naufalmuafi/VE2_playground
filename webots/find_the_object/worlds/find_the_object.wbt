@@ -22,11 +22,11 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 1.5 1.5
 }
-DEF TARGET2_1 Apple {
+Apple {
   translation 0.130828 0.266603 0.04976456000000001
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
 }
-DEF TARGET2_1 Apple {
+Apple {
   translation -0.183394 -0.409668 0.0497645600393127
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
   name "apple(1)"
@@ -47,7 +47,7 @@ DEF TARGET_1 Solid {
       }
     }
   ]
-  name "Target"
+  name "target_1"
   model "target_1"
   boundingObject USE TARGET_SHAPE
   physics Physics {
@@ -74,7 +74,7 @@ DEF TARGET_2 Solid {
       }
     }
   ]
-  name "Target(1)"
+  name "target_2"
   model "target_2"
   boundingObject USE TARGET_SHAPE
   physics Physics {
@@ -85,7 +85,8 @@ DEF TARGET_2 Solid {
     0.666667 0 0
   ]
 }
-Robot {
+
+DEF ROBOT Robot {
   translation -0.5912347141931845 -0.03026246706094393 -0.00023420748536638614
   rotation -0.014121838568203569 -0.044720364276457 0.9988997260458302 3
   children [
