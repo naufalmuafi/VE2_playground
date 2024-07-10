@@ -6,7 +6,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_checker import check_env
 
 
-TIMESTEPS = 3000
+TIMESTEPS = 1000
 
 # where to store trained model and logs
 model_dir_name = "models_fto"
@@ -87,7 +87,8 @@ if __name__ == "__main__":
     model_dir, log_dir = create_dir(model_dir_name, log_dir_name)
 
     # check the environment
-    check_environment(env)
+    # check_environment(env)
+    # print(f"Environment is ready: {env}")
 
     # train and test the model with A2C algorithm
     train_PPO(env, model_dir, log_dir, TIMESTEPS)

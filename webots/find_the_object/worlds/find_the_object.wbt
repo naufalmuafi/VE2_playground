@@ -85,7 +85,6 @@ DEF TARGET_2 Solid {
     0.666667 0 0
   ]
 }
-
 DEF ROBOT Robot {
   translation -0.5912347141931845 -0.03026246706094393 -0.00023420748536638614
   rotation -0.014121838568203569 -0.044720364276457 0.9988997260458302 3
@@ -166,7 +165,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.04500000000000003 0.025
+        translation 0 -0.044999999999999964 0.025
         rotation 0 -1 0 5.038946871708783
         children [
           USE WHEEL
@@ -309,6 +308,6 @@ DEF ROBOT Robot {
     density -1
     mass 0.5
   }
-  controller "finder_controller"
+  controller "<extern>"
   supervisor TRUE
 }

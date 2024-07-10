@@ -61,8 +61,8 @@ class FTO_Env(Supervisor, Env):
         )
 
         # Initialize robot and target positions
-        self.robot_node = self.getDevice("MyBot")
-        self.targets = [self.getDevice("target_1"), self.getDevice("target_2")]
+        self.robot_node = self.getFromDef("ROBOT")
+        self.targets = [self.getFromDef("TARGET_1"), self.getFromDef("TARGET_2")]
         self.max_distance = np.sqrt(1.5**2 + 1.5**2)  # Assuming a 1.5x1.5 arena
 
     def run(self):
@@ -84,7 +84,7 @@ class FTO_Env(Supervisor, Env):
                     self.display.imagePaste(segmented_image, 0, 0, False)
                     self.display.imageDelete(segmented_image)
 
-    def reset(self, seed: Any, options: Any) -> Tuple[np.ndarray, dict]:
+    def reset(self, seed: Any = None, options: Any = None) -> Tuple[np.ndarray, dict]:
         # Reset the simulation
         self.simulationResetPhysics()
         self.simulationReset()
@@ -169,7 +169,9 @@ class FTO_Env(Supervisor, Env):
             for target in self.targets
         ]
 
-        return min(distances) < 0.1
+        done = True if min(distances) < 0.1 else False
+
+        return done
 
     def is_target_visible(self) -> bool:
         # check if the target is visible in the camera image
