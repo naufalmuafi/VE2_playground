@@ -62,17 +62,9 @@ class Controller(Supervisor):
                     self.display_segmented_image(data, width, height)
 
                     # calculate the target area
-                    target_px = 0
-
-                    for y in range(height):
-                        for x in range(width):
-                            index = (y * width + x) * 4
-                            b, g, r, a = data[index : index + 4]
-
-                            if r == 170 and g == 0 and b == 0:
-                                target_px += 1
-
-                    target_area = target_px / frame_area
+                    target_area = self.calculate_target_area(
+                        data, width, height, frame_area
+                    )
 
                     if target_area >= 0.25:
                         print("Target area meets or exceeds 1/4 of the frame.")
@@ -111,6 +103,21 @@ class Controller(Supervisor):
         segmented_image = self.display.imageNew(data, Display.BGRA, width, height)
         self.display.imagePaste(segmented_image, 0, 0, False)
         self.display.imageDelete(segmented_image)
+
+    def calculate_target_area(self, data, width, height, frame_area):
+        target_px = 0
+
+        for y in range(height):
+            for x in range(width):
+                index = (y * width + x) * 4
+                b, g, r, a = data[index : index + 4]
+
+                if r == 170 and g == 0 and b == 0:
+                    target_px += 1
+
+        target_area = target_px / frame_area
+
+        return target_area
 
 
 if __name__ == "__main__":
