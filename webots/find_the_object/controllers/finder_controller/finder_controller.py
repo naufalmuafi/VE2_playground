@@ -66,10 +66,8 @@ class Controller(Supervisor):
                         data, width, height, frame_area
                     )
 
-                    if target_area >= 0.25:
-                        print("Target area meets or exceeds 1/4 of the frame.")
-                        self.stop_motors()
-                        break
+                    done = self.is_done(target_area, 0.25)
+                    exit(1) if done else None
 
                 self.objects_recognition(objects, width, target_area)
 
@@ -114,6 +112,15 @@ class Controller(Supervisor):
                         self.move_forward()
                     else:
                         self.turn_right()
+
+    def is_done(self, target_area, threshold=0.25):
+        done = False
+        if target_area >= threshold:
+            print(f"Target area meets or exceeds {threshold * 100:.2f}% of the frame.")
+            self.stop_motors()
+            done = True
+
+        return done
 
     def stop_motors(self):
         self.left_motor.setVelocity(0.0)
