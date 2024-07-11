@@ -24,16 +24,16 @@ RectangleArena {
 }
 Apple {
   translation 0.130828 0.266603 0.04976456000000001
-  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
+  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953762 1.6923430563657313
 }
 Apple {
-  translation -0.183394 -0.409668 0.0497645600393127
+  translation -0.183394 -0.409668 0.049764560000038635
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
   name "apple(1)"
 }
 DEF TARGET_1 Solid {
   translation -0.485226 0.537977 0.04917815936182092
-  rotation 0.9762222877629936 -0.04829876452757953 0.211322677959315 -2.1367300053676272
+  rotation 0.9762222877629937 -0.04829876452757952 0.211322677959315 -2.1367300053676272
   children [
     DEF TARGET_SHAPE Shape {
       appearance PBRAppearance {
@@ -57,9 +57,10 @@ DEF TARGET_1 Solid {
   recognitionColors [
     0.666667 0 0
   ]
+  linearVelocity 0 0 -4.350276286380251e-17
 }
 DEF TARGET_2 Solid {
-  translation 0.136021 -0.210544 0.049178159401044766
+  translation 0.136021 -0.210544 0.04917815936185878
   rotation 0.9762222877629936 -0.04829876452757953 0.211322677959315 -2.1367300053676272
   children [
     DEF TARGET_SHAPE Shape {
@@ -86,8 +87,8 @@ DEF TARGET_2 Solid {
   ]
 }
 DEF ROBOT Robot {
-  translation -0.5912347141931845 -0.03026246706094393 -0.00023420748536638614
-  rotation -0.014121838568203569 -0.044720364276457 0.9988997260458302 3
+  translation -0.5918275318152174 -0.02958959681900579 -0.0002342209088089589
+  rotation -0.014133756167394363 -0.050274267819461746 0.9986354364490665 -0.5488028868438848
   children [
     Pose {
       translation 0 0 0.0415
@@ -107,7 +108,7 @@ DEF ROBOT Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -49.813891484383724
+        position -55.284633329609605
         axis 0 1 0
         anchor 0 0 0.025
       }
@@ -122,7 +123,7 @@ DEF ROBOT Robot {
       ]
       endPoint Solid {
         translation 0 0.04500000000000004 0.025
-        rotation 0 -1 0 4.533079026947032
+        rotation 0 1 0 2.56254974218626
         children [
           DEF WHEEL Pose {
             rotation -1 0 0 1.57
@@ -147,11 +148,13 @@ DEF ROBOT Robot {
           density -1
           mass 0.05
         }
+        linearVelocity -0.028670571051728693 0.0179594208002586 -1.4253477331186637e-08
+        angularVelocity -0.7978035213198658 -1.2703556974359131 0.755506495148809
       }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 49.81388558572791
+        position 55.284612665257555
         axis 0 1 0
         anchor 0 0 0.025
       }
@@ -165,14 +168,16 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.044999999999999964 0.025
-        rotation 0 -1 0 5.038946871708783
+        translation 0 -0.04499999999999986 0.025
+        rotation 0 1 0 0.43178020782086285
         children [
           USE WHEEL
         ]
         name "right wheel"
         boundingObject USE WHEEL
         physics USE PHYSICS_WHEEL
+        linearVelocity 0.02867059135696529 -0.018064830302067816 3.0317161995032944e-08
+        angularVelocity 0.7978014336391718 1.2703542793892404 0.7555076730635126
       }
     }
     DistanceSensor {
@@ -308,6 +313,8 @@ DEF ROBOT Robot {
     density -1
     mass 0.5
   }
-  controller "<extern>"
+  controller "finder_controller"
   supervisor TRUE
+  linearVelocity 0.00018670570555421066 0.00024493384656578017 2.457062477482398e-08
+  angularVelocity -1.0386848221999452e-06 -7.081084713752708e-07 0.7514119949662701
 }

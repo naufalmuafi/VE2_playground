@@ -46,15 +46,22 @@ class Controller(Robot):
                 self.camera.isRecognitionSegmentationEnabled()
                 and self.camera.getRecognitionSamplingPeriod() > 0
             ):
-                # Get the segmented image and display it in the Display
+                objects = self.camera.getRecognitionObjects()
                 data = self.camera.getRecognitionSegmentationImage()
+
                 if data:
-                    # print(f"segmented image: {data}")
                     segmented_image = self.display.imageNew(
                         data, Display.BGRA, width, height
                     )
                     self.display.imagePaste(segmented_image, 0, 0, False)
                     self.display.imageDelete(segmented_image)
+
+                for obj in objects:
+                    for i in range(obj.getNumberOfColors()):
+                        r, g, b = obj.getColors()[3 * i : 3 * i + 3]
+                        print(f"Color {i + 1}/{obj.getNumberOfColors()}: {r} {g} {b}")
+                        if r == 0.666667 and g == 0 and b == 0:
+                            print("Target found")
 
 
 if __name__ == "__main__":

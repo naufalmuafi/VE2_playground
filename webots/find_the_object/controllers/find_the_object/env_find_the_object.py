@@ -34,6 +34,9 @@ class FTO_Env(Supervisor, Env):
         # Set the time step
         self.__timestep: int = int(self.getBasicTimeStep())
 
+        # set the speed of robot
+        self.speed = 1.3
+
         # Get the camera device
         self.camera = self.getDevice("camera")
         self.camera.enable(self.__timestep)
@@ -52,7 +55,9 @@ class FTO_Env(Supervisor, Env):
         self.right_motor.setVelocity(0.0)
 
         # Set the action and observation spaces
-        self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32)
+        self.action_space = spaces.Box(
+            low=-self.speed, high=self.speed, shape=(2,), dtype=np.float32
+        )
         self.observation_space = spaces.Box(
             low=0,
             high=255,

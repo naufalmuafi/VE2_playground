@@ -86,15 +86,18 @@ if __name__ == "__main__":
     # create directories
     model_dir, log_dir = create_dir(model_dir_name, log_dir_name)
 
+    # check the environment functionality
+    env.run()
+
     # check the environment
     # check_environment(env)
     # print(f"Environment is ready: {env}")
 
     # train and test the model with A2C algorithm
-    train_PPO(env, model_dir, log_dir, TIMESTEPS)
+    # train_PPO(env, model_dir, log_dir, TIMESTEPS)
 
-    print("Training is finished, press `Y` for replay...")
-    wait_for_y()
-    print("Test the Environment with Predicted Value")
+    # print("Training is finished, press `Y` for replay...")
+    # wait_for_y()
+    # print("Test the Environment with Predicted Value")
 
-    test_PPO(env, model_dir, TIMESTEPS)
+    # test_PPO(env, model_dir, TIMESTEPS)

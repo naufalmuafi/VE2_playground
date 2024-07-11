@@ -30,24 +30,26 @@ RectangleArena {
   floorSize 1.5 1.5
 }
 Can {
-  translation 0.267626 0.290201 0.06
+  translation 0.267626 0.290201 0.0609617108609355
+  rotation 0.6078229636147192 0.7886071931714658 0.09300505244793011 4.863450869639638e-17
 }
 Can {
-  translation -0.326272 -0.341474 0.06
+  translation -0.326272 -0.341474 0.0609617108609355
+  rotation 0.6078229636147192 0.7886071931714658 0.09300505244793011 4.863450869639638e-17
   name "can(1)"
 }
 Apple {
-  translation -0.260886 0.22946 0.05
+  translation -0.260886 0.22946 0.049764791394518226
 }
 Apple {
-  translation -0.621889 0.56252 0.05
+  translation -0.621889 0.56252 0.049764791394518226
   name "apple(1)"
 }
 DEF ORANGE Solid {
   translation -0.002188 -0.063045 0
   children [
     Orange {
-      translation -0.187654 0.182317 0.05
+      translation -0.187654 0.182317 0.04999764793150722
     }
   ]
   name "orange"
@@ -59,7 +61,7 @@ DEF ORANGE Solid {
   translation 0.085807 -0.503005 0
   children [
     Orange {
-      translation -0.187654 0.182317 0.05
+      translation -0.187654 0.182317 0.04999764793150722
     }
   ]
   name "orange(1)"
@@ -78,12 +80,12 @@ JamJar {
   mass 0
 }
 CerealBox {
-  translation -0.43865 0.194464 0
-  rotation 0 0 -1 0.523599
+  translation -0.43865 0.194464 -0.00039201630959942446
+  rotation 3.770103787649246e-17 2.407949098820323e-18 -1 0.523599
 }
 CerealBox {
-  translation -0.450259 0.4153 0
-  rotation 0 0 -1 0.785399
+  translation -0.45025899348281107 0.41529999585090943 -0.00039220694597741357
+  rotation -7.438330797950161e-08 -2.0088280332138234e-06 -0.9999999999979794 0.7853985634923097
   name "cereal box(1)"
 }
 OilBarrel {
@@ -107,16 +109,16 @@ OilBarrel {
   radius 0.06
 }
 BiscuitBox {
-  translation 0.538412 -0.274668 0.04
-  rotation 0.6947480600338772 -0.18615701608601462 -0.6947450600336179 -2.7734953071795863
+  translation 0.5384121770599435 -0.27466816841412345 0.03984308800740199
+  rotation 0.6947462352857393 -0.18615610946793437 -0.694747127711986 -2.773493129695837
 }
 RubberDuck {
-  translation -0.243817 0.384468 0.01
-  rotation 0 0 1 -2.3561953071795863
+  translation -0.243817 0.384468 0.020436910949152134
+  rotation -2.1881405658049035e-17 -2.92732624931207e-17 1 -2.356195307179586
 }
 Robot {
-  translation 0.08518 0.000516 0
-  rotation 0 0 1 2
+  translation 0.08410562623689305 0.0014106288729985607 -0.00023419623914434917
+  rotation -0.014148600228101087 -0.02242242633020867 0.9996484641658044 -1.126111857642492
   children [
     Pose {
       translation 0 0 0.0415
@@ -136,6 +138,7 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position -6.287722767639882
         axis 0 1 0
         anchor 0 0 0.025
       }
@@ -150,7 +153,7 @@ Robot {
       ]
       endPoint Solid {
         translation 0 0.045 0.025
-        rotation 0 -1 0 4.98467
+        rotation 0 1 0 1.2939778467192906
         children [
           DEF WHEEL Pose {
             rotation -1 0 0 1.57
@@ -175,10 +178,13 @@ Robot {
           density -1
           mass 0.05
         }
+        linearVelocity -0.01420493695935347 0.030671649320537887 1.1144860676707066e-09
+        angularVelocity -1.3620879523949871 -0.628500977682968 0.7569269184885055
       }
     }
     HingeJoint {
       jointParameters HingeJointParameters {
+        position 6.2876966453003496
         axis 0 1 0
         anchor 0 0 0.025
       }
@@ -192,14 +198,16 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.045 0.025
-        rotation 0 -1 0 4.58735
+        translation 0 -0.04499999999999999 0.025
+        rotation 0 1 0 1.7003466453003497
         children [
           USE WHEEL
         ]
         name "right wheel"
         boundingObject USE WHEEL
         physics USE PHYSICS_WHEEL
+        linearVelocity 0.014205166070513888 -0.030937244470759125 -2.184152883453608e-08
+        angularVelocity 1.3620851582192308 0.6284992543711816 0.7569274975035941
       }
     }
     DistanceSensor {
@@ -335,5 +343,7 @@ Robot {
     density -1
     mass 0.5
   }
-  controller "finder_controller"
+  controller "camera_segmentation_py"
+  linearVelocity 0.0003196654091316393 1.4865879239021946e-05 -6.017788899739916e-08
+  angularVelocity -1.4031926523922842e-06 -8.543114049760736e-07 0.7528223685022579
 }
