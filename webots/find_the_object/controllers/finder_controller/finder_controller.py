@@ -119,6 +119,25 @@ class Controller(Supervisor):
 
         return target_area
 
+    def stop_motors(self):
+        self.left_motor.setVelocity(0.0)
+        self.right_motor.setVelocity(0.0)
+
+    def turn_left(self):
+        print("Target on the left, turning left...")
+        self.left_motor.setVelocity(-self.speed)
+        self.right_motor.setVelocity(self.speed)
+
+    def move_forward(self):
+        print("Target in the center, moving forward...")
+        self.left_motor.setVelocity(self.speed)
+        self.right_motor.setVelocity(self.speed)
+
+    def turn_right(self):
+        print("Target on the right, turning right...")
+        self.left_motor.setVelocity(self.speed)
+        self.right_motor.setVelocity(-self.speed)
+
 
 if __name__ == "__main__":
     controller = Controller()
