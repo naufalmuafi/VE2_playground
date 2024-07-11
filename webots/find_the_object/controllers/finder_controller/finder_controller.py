@@ -68,36 +68,10 @@ class Controller(Supervisor):
 
                     if target_area >= 0.25:
                         print("Target area meets or exceeds 1/4 of the frame.")
-                        self.left_motor.setVelocity(0.0)
-                        self.right_motor.setVelocity(0.0)
+                        self.stop_motors()
                         break
 
-                for obj in objects:
-                    for i in range(obj.getNumberOfColors()):
-                        r, g, b = obj.getColors()[3 * i : 3 * i + 3]
-                        print(f"Color {i + 1}/{obj.getNumberOfColors()}: {r} {g} {b}")
-                        if r == 0.666667 and g == 0 and b == 0:
-                            print("Target found, determining position...")
-                            print(f"Target area: {target_area*100:.2f}% of the frame")
-
-                            # Determine the position of the target
-                            position_on_image = obj.getPositionOnImage()
-                            obj_x, obj_y = position_on_image[0], position_on_image[1]
-                            print(f"Object position on image: x={obj_x}, y={obj_y}")
-
-                            # Determine which part of the image the target is in
-                            if obj_x < width / 3:
-                                print("Target on the left, turning left...")
-                                self.left_motor.setVelocity(-self.speed)
-                                self.right_motor.setVelocity(self.speed)
-                            elif obj_x < 2 * width / 3:
-                                print("Target in the center, moving forward...")
-                                self.left_motor.setVelocity(self.speed)
-                                self.right_motor.setVelocity(self.speed)
-                            else:
-                                print("Target on the right, turning right...")
-                                self.left_motor.setVelocity(self.speed)
-                                self.right_motor.setVelocity(-self.speed)
+                self.objects_recognition(objects, width, target_area)
 
     def display_segmented_image(self, data, width, height):
         segmented_image = self.display.imageNew(data, Display.BGRA, width, height)
@@ -118,6 +92,28 @@ class Controller(Supervisor):
         target_area = target_px / frame_area
 
         return target_area
+
+    def objects_recognition(self, objects, width, target_area):
+        for obj in objects:
+            for i in range(obj.getNumberOfColors()):
+                r, g, b = obj.getColors()[3 * i : 3 * i + 3]
+                print(f"Color {i + 1}/{obj.getNumberOfColors()}: {r} {g} {b}")
+
+                if r == 0.666667 and g == 0 and b == 0:
+                    print("Target found, determining position...")
+                    print(f"Target area: {target_area*100:.2f}% of the frame")
+
+                    position_on_image = obj.getPositionOnImage()
+                    obj_x, obj_y = position_on_image[0], position_on_image[1]
+
+                    print(f"Object position on image: x={obj_x}, y={obj_y}")
+
+                    if obj_x < width / 3:
+                        self.turn_left()
+                    elif obj_x < 2 * width / 3:
+                        self.move_forward()
+                    else:
+                        self.turn_right()
 
     def stop_motors(self):
         self.left_motor.setVelocity(0.0)
