@@ -23,16 +23,32 @@ RectangleArena {
   floorSize 1.5 1.5
 }
 Apple {
-  translation 0.130828 0.266603 0.04976456000000001
+  translation -0.35465 0.433918 0.0497646
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953762 1.6923430563657313
+  name "apple_1"
+}
+Apple {
+  translation 0.110869 0.295523 0.0497646
+  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953762 1.6923430563657313
+  name "apple_2"
+}
+Apple {
+  translation -0.15774 0.137389 0.0497646
+  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953762 1.6923430563657313
+  name "apple_3"
+}
+Apple {
+  translation 0.0760692 -0.311813 0.0497646
+  rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953762 1.6923430563657313
+  name "apple_4"
 }
 Apple {
   translation -0.183394 -0.409668 0.049764560000038635
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953761 1.6923430563657316
-  name "apple(1)"
+  name "apple_5"
 }
 DEF TARGET_1 Solid {
-  translation -0.485226 0.537977 0.04917815936182092
+  translation 0.111131 0.0128655 0.0491782
   rotation 0.9762222877629937 -0.04829876452757952 0.211322677959315 -2.1367300053676272
   children [
     DEF TARGET_SHAPE Shape {
@@ -49,33 +65,6 @@ DEF TARGET_1 Solid {
   ]
   name "target_1"
   model "target_1"
-  boundingObject USE TARGET_SHAPE
-  physics Physics {
-    damping Damping {
-    }
-  }
-  recognitionColors [
-    0.666667 0 0
-  ]
-}
-DEF TARGET_2 Solid {
-  translation 0.136021 -0.210544 0.04917815936185878
-  rotation 0.9762222877629936 -0.04829876452757953 0.211322677959315 -2.1367300053676272
-  children [
-    DEF TARGET_SHAPE Shape {
-      appearance PBRAppearance {
-        baseColor 1 0 0
-        roughness 1
-        metalness 0
-      }
-      geometry Sphere {
-        radius 0.05
-        subdivision 2
-      }
-    }
-  ]
-  name "target_2"
-  model "target_2"
   boundingObject USE TARGET_SHAPE
   physics Physics {
     damping Damping {
