@@ -7,7 +7,7 @@ Using Webots and Stable Baselines3.
 """
 
 import random
-from controller import Supervisor, Robot, Display
+from controller import Supervisor, Display
 
 
 class Controller(Supervisor):
@@ -43,7 +43,7 @@ class Controller(Supervisor):
         self.right_motor.setVelocity(initial_direction)
 
         self.robot_node = self.getFromDef("ROBOT")
-        self.targets = [self.getFromDef("TARGET_1"), self.getFromDef("TARGET_2")]
+        self.targets = self.getFromDef("TARGET_1")
 
     def run(self):
         width = self.camera.getWidth()
