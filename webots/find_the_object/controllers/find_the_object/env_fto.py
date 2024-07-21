@@ -124,6 +124,10 @@ class FTO_Env(Supervisor, Env):
         # termination
         done = self.is_done(target_area, self.threshold)
 
+        if done:
+            self.stop_motors()
+            print(f"Target area meets or exceeds {threshold * 100:.2f}% of the frame.")
+
         # reward
         reward = 0
 
