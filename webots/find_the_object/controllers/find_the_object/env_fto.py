@@ -7,6 +7,7 @@ Using Webots and Stable Baselines3.
 """
 
 import sys
+from enum import Enum
 from controller import Supervisor, Display
 from typing import Any, Tuple, List
 
@@ -21,6 +22,15 @@ except ImportError:
         "Please make sure you have all dependencies installed. "
         "Run: `pip install numpy gymnasium stable_baselines3`"
     )
+
+
+# Robot action to go in a certain direction in discrete space
+class RobotAction(Enum):
+    LEFT = 0
+    RIGHT = 1
+    FORWARD = 2
+    STOP = 3
+    TURN_OVER = 4
 
 
 class FTO_Env(Supervisor, Env):
@@ -39,22 +49,38 @@ class FTO_Env(Supervisor, Env):
         # set the threshold of the target area
         self.target_threshold = 0.35
 
-        # Set the action spaces: 0 = left, 1 = right
+        # Set the action spaces: 0 = left, 1 = right, 2 = forward, 3 = stop
         # case 1: discrete
-        self.action_space: spaces.Discrete = spaces.Discrete(2)
+        # self.action_space: spaces.Discrete = spaces.Discrete(len(RobotAction))
 
         # case 2: continuous
-        # self.action_space = spaces.Box(
-        #     low=-self.max_speed, high=self.max_speed, shape=(2,), dtype=np.float32
-        # )
+        self.action_space = spaces.Box(
+            low=-self.max_speed, high=self.max_speed, shape=(2,), dtype=np.float32
+        )
 
         # Set the observation spaces
-        self.observation_space = spaces.Box(
-            low=0,
-            high=255,
-            shape=(self.camera.getHeight(), self.camera.getWidth(), 3),
-            dtype=np.uint8,
+        # RGB images of shape (camera_width, camera_height, 3) and a target value in range 0-100
+        self.observation_space = spaces.Dict(
+            {
+                "segmentation_img": spaces.Box(
+                    low=0,
+                    high=255,
+                    shape=(self.camera.getWidth(), self.camera.getHeight(), 3),
+                    dtype=np.uint8,
+                ),
+                "target_area": spaces.Box(
+                    low=0, high=100, shape=(1,), dtype=np.float32
+                ),
+            }
         )
+
+        # pure image
+        # self.observation_space = spaces.Box(
+        #     low=0,
+        #     high=255,
+        #     shape=(self.camera.getHeight(), self.camera.getWidth(), 3),
+        #     dtype=np.uint8,
+        # )
 
         # environment specification
         self.state = None
@@ -84,74 +110,70 @@ class FTO_Env(Supervisor, Env):
             motor = self.getDevice(name)
             self.motors.append(motor)
             motor.setPosition(float("inf"))
-
-            # set the initial velocity of the motors randomly
-            initial_direction = random.choice([-1, 1]) * self.max_speed / 1.5
-            motor.setVelocity(initial_direction)
+            motor.setVelocity(0.0)
 
         # internal state
         super().step(self.__timestep)
 
         # initial state
-        self.state = np.zeros(
+        initial_obs1 = np.zeros(
             (self.camera.getHeight(), self.camera.getWidth(), 3), dtype=np.uint8
         )
+        initial_obs2 = 0
+        self.state = {"segmentation_img": initial_obs1, "target_area": initial_obs2}
+
+        # info
         info: dict = {}
 
         return self.state, info
 
     def step(self, action: int):
-        width = self.camera.getWidth()
-        height = self.camera.getHeight()
-        frame_area = width * height
-
-        # action
+        # perform a continuous action
+        self.motors[0].setVelocity(action[0])
+        self.motors[1].setVelocity(action[1])
 
         # Get the new state
         super().step(self.__timestep)
 
-        # observation
+        width = self.camera.getWidth()
+        height = self.camera.getHeight()
+        frame_area = width * height
 
         if (
             self.camera.isRecognitionSegmentationEnabled()
             and self.camera.getRecognitionSamplingPeriod() > 0
         ):
-            objects = self.camera.getRecognitionObjects()
             data = self.camera.getRecognitionSegmentationImage()
 
             if data:
                 self.display_segmented_image(data, width, height)
 
-            # calculate the target area
-            target_area = self.calculate_target_area(data, width, height, frame_area)
+                # calculate the target area
+                target_area = self.calculate_target_area(
+                    data, width, height, frame_area
+                )
 
-        # termination
-        done = self.is_done(target_area, self.target_threshold)
+        # observation
+        self.state = {"segmentation_img": data, "target_area": target_area}
 
-        if done:
-            self.stop_motors()
-            print(
-                f"Target area meets or exceeds {self.target_threshold * 100:.2f}% of the frame."
-            )
+        # check if the episode is done
+        done = bool(self.state["target_area"] >= self.target_threshold)
 
         # reward
-        reward = 0
+        if target_area > 0:
+            reward = target_area
+            if done:
+                reward += 1000
+        else:
+            reward = 0
 
+        # info
         info = {}
 
         return self.state.astype(np.int32), reward, done, False, info
 
     def render(self, mode: str = "human") -> None:
         pass
-
-    def is_done(self, target_area, threshold=0.25):
-        done = False
-        if target_area >= threshold:
-            print(f"Target area meets or exceeds {threshold * 100:.2f}% of the frame.")
-            self.stop_motors()
-            done = True
-
-        return done
 
     def display_segmented_image(self, data, width, height):
         segmented_image = self.display.imageNew(data, Display.BGRA, width, height)
