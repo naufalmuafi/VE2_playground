@@ -27,15 +27,13 @@ class FTO_Env(Supervisor, Env):
     def __init__(self):
         # Initialize the Robot class
         super().__init__()
+        random.seed(42)
 
         # register the Environment
         self.spec: EnvSpec = EnvSpec(id="FTO-v1")
 
         # Set the time step
         self.__timestep: int = int(self.getBasicTimeStep())
-
-        # Initialize the Robot class
-        random.seed(42)
 
         # set the speed of the motors
         self.speed = 1.3
