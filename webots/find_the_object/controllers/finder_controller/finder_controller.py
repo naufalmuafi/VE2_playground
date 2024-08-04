@@ -67,6 +67,7 @@ class Controller(Supervisor):
                     )
 
                     done = self.is_done(target_area, 0.35)
+                    print(data.shape) if done else None
                     exit(0) if done else None
 
                 self.objects_recognition(objects, width, target_area)

@@ -94,7 +94,7 @@ if __name__ == "__main__":
     train_PPO(env, model_dir, log_dir, TIMESTEPS)
 
     print("Training is finished, press `Y` for replay...")
-    wait_for_y()
-    print("Test the Environment with Predicted Value")
+    # wait_for_y()
+    # print("Test the Environment with Predicted Value")
 
-    test_PPO(env, model_dir, TIMESTEPS)
+    # test_PPO(env, model_dir, TIMESTEPS)
