@@ -24,27 +24,31 @@ except ImportError:
 
 
 class FTO_Env(Supervisor, Env):
-    def __init__(self):
+
+    def __init__(self, max_episode_steps: int = 1000) -> None:
         # Initialize the Robot class
         super().__init__()
         random.seed(42)
 
         # register the Environment
-        self.spec: EnvSpec = EnvSpec(id="FTO-v1")
+        self.spec: EnvSpec = EnvSpec(id="FTO-v1", max_episode_steps=max_episode_steps)
 
-        # Set the time step
-        self.__timestep: int = int(self.getBasicTimeStep())
-
-        # set the speed of the motors
-        self.speed = 1.3
+        # set the max_speed of the motors
+        self.max_speed = 1.3
 
         # set the threshold of the target area
-        self.threshold = 0.35
+        self.target_threshold = 0.35
 
-        # Set the action and observation spaces
-        self.action_space = spaces.Box(
-            low=-self.speed, high=self.speed, shape=(2,), dtype=np.float32
-        )
+        # Set the action spaces: 0 = left, 1 = right
+        # case 1: discrete
+        self.action_space: spaces.Discrete = spaces.Discrete(2)
+
+        # case 2: continuous
+        # self.action_space = spaces.Box(
+        #     low=-self.max_speed, high=self.max_speed, shape=(2,), dtype=np.float32
+        # )
+
+        # Set the observation spaces
         self.observation_space = spaces.Box(
             low=0,
             high=255,
@@ -52,13 +56,12 @@ class FTO_Env(Supervisor, Env):
             dtype=np.uint8,
         )
 
-        # Initialize robot and target positions
-        self.robot_node = self.getFromDef("ROBOT")
-        self.targets = self.getFromDef("TARGET_1")
-        self.max_distance = np.sqrt(1.5**2 + 1.5**2)  # Assuming a 1.5x1.5 arena
-
-        # Initialize the target area
-        self.previous_target_area = 0.0
+        # environment specification
+        self.state = None
+        self.camera: Any = None
+        self.display: Any = None
+        self.motors: List[Any] = []
+        self.__timestep: int = int(self.getBasicTimeStep())
 
     def reset(self, seed: Any = None, options: Any = None):
         # Reset the simulation
@@ -76,21 +79,24 @@ class FTO_Env(Supervisor, Env):
         self.display = self.getDevice("segmented image display")
 
         # Get the left and right wheel motors
-        self.left_motor = self.getDevice("left wheel motor")
-        self.right_motor = self.getDevice("right wheel motor")
-        self.left_motor.setPosition(float("inf"))
-        self.right_motor.setPosition(float("inf"))
+        self.motors = []
+        for name in ["left wheel motor", "right wheel motor"]:
+            motor = self.getDevice(name)
+            self.motors.append(motor)
+            motor.setPosition(float("inf"))
 
-        # set the initial velocity of the motors randomly
-        initial_direction = random.choice([-1, 1]) * self.speed / 1.5
-        self.left_motor.setVelocity(-initial_direction)
-        self.right_motor.setVelocity(initial_direction)
+            # set the initial velocity of the motors randomly
+            initial_direction = random.choice([-1, 1]) * self.max_speed / 1.5
+            motor.setVelocity(initial_direction)
 
-        # gymnasium generic variables
+        # internal state
+        super().step(self.__timestep)
+
+        # initial state
         self.state = np.zeros(
             (self.camera.getHeight(), self.camera.getWidth(), 3), dtype=np.uint8
         )
-        info = {}
+        info: dict = {}
 
         return self.state, info
 
@@ -120,11 +126,13 @@ class FTO_Env(Supervisor, Env):
             target_area = self.calculate_target_area(data, width, height, frame_area)
 
         # termination
-        done = self.is_done(target_area, self.threshold)
+        done = self.is_done(target_area, self.target_threshold)
 
         if done:
             self.stop_motors()
-            print(f"Target area meets or exceeds {threshold * 100:.2f}% of the frame.")
+            print(
+                f"Target area meets or exceeds {self.target_threshold * 100:.2f}% of the frame."
+            )
 
         # reward
         reward = 0
@@ -164,3 +172,11 @@ class FTO_Env(Supervisor, Env):
         target_area = target_px / frame_area
 
         return target_area
+
+
+# register the environment
+register(
+    id="FTO-v1",
+    entry_point=lambda: FTO_Env(),
+    max_episode_steps=1000,
+)
