@@ -110,7 +110,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.04500000000000004 0.025
+        translation 0 0.04499999999999993 0.025
         rotation 0 1 0 2.56254974218626
         children [
           DEF WHEEL Pose {
@@ -154,7 +154,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.04499999999999986 0.025
+        translation 0 -0.04499999999999983 0.025
         rotation 0 1 0 0.43178020782086385
         children [
           USE WHEEL
@@ -297,6 +297,6 @@ DEF ROBOT Robot {
     density -1
     mass 0.5
   }
-  controller "finder_controller"
+  controller "<extern>"
   supervisor TRUE
 }

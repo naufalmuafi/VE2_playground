@@ -39,7 +39,8 @@ def train_PPO(env: gym.Env, model_dir: str, log_dir: str, timesteps: int) -> Non
     # use Proximal Policy Optimization (PPO) algorithm
     # use MLP policy for observation space 1D-vector
     print("Training the model with PPO...")
-    model = PPO("CnnPolicy", env, verbose=1, tensorboard_log=log_dir)
+    # model = PPO("CnnPolicy", env, verbose=1, tensorboard_log=log_dir)
+    model = PPO("MultiInputPolicy", env, verbose=1, tensorboard_log=log_dir)
 
     # train and save the model
     model.learn(total_timesteps=timesteps)
@@ -87,8 +88,8 @@ if __name__ == "__main__":
     model_dir, log_dir = create_dir(model_dir_name, log_dir_name)
 
     # check the environment
-    check_environment(env)
-    print(f"Environment is ready: {env}")
+    # check_environment(env)
+    # print(f"Environment is ready: {env}")
 
     # train and test the model with A2C algorithm
     train_PPO(env, model_dir, log_dir, TIMESTEPS)
