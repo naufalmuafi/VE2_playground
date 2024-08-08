@@ -184,7 +184,7 @@ class FTO_Env(Supervisor, Env):
         #     "target_area": np.array([target_area], dtype=np.float32),
         # }
 
-        self.state = pixels
+        self.state = np.array(pixels, dtype=np.uint8)
 
         # check if the episode is done
         done = bool(target_area >= self.target_threshold)
