@@ -35,12 +35,12 @@ def check_environment(env: gym.Env) -> None:
         exit(1)
 
 
-def train_PPO(env: gym.Env, model_dir: str, log_dir: str, timesteps: int) -> None:
+def train_PPO(env: gym.Env, model_dir: str, log_dir: str, timesteps) -> None:
     # use Proximal Policy Optimization (PPO) algorithm
     # use MLP policy for observation space 1D-vector
     print("Training the model with PPO...")
-    # model = PPO("CnnPolicy", env, verbose=1, tensorboard_log=log_dir)
-    model = PPO("MultiInputPolicy", env, verbose=1, tensorboard_log=log_dir)
+    model = PPO("CnnPolicy", env, verbose=1, tensorboard_log=log_dir)
+    # model = PPO("MultiInputPolicy", env, verbose=1, tensorboard_log=log_dir)
 
     # train and save the model
     model.learn(total_timesteps=timesteps)
@@ -89,7 +89,10 @@ if __name__ == "__main__":
 
     # check the environment
     # check_environment(env)
-    # print(f"Environment is ready: {env}")
+    print(f"Check the environment: {env}...")
+    check_env(env)
+
+    print(f"Environment is ready: {env}")
 
     # train and test the model with A2C algorithm
     train_PPO(env, model_dir, log_dir, TIMESTEPS)

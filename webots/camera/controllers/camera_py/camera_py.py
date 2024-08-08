@@ -78,6 +78,7 @@ class Controller(Robot):
                 left_speed = 0
                 right_speed = 0
             else:  # pause_counter == 0
+
                 # Here we analyse the image from the camera. The goal is to detect a
                 # blob (a spot of color) of a defined color in the middle of our
                 # screen.
@@ -92,6 +93,7 @@ class Controller(Robot):
                         red += Camera.imageGetRed(image, width, i, j)
                         green += Camera.imageGetGreen(image, width, i, j)
                         blue += Camera.imageGetBlue(image, width, i, j)
+
                 # If a component is much more represented than the other ones,
                 # a blob is detected
                 if red > 3 * green and red > 3 * blue:
@@ -102,11 +104,13 @@ class Controller(Robot):
                     current_blob = 2  # blue
                 else:
                     current_blob = None
+
                 # Case 3a
                 # No blob is detected: the robot continues to turn
                 if current_blob is None:
                     left_speed = -speed
                     right_speed = speed
+
                 # Case 3b
                 # A blob is detected
                 # the robot stops, stores the image, and changes its state
@@ -137,6 +141,7 @@ class Controller(Robot):
                     )
                     self.camera.saveImage(filename, 100)
                     pause_counter = 1280 / self.timeStep
+
             # Set the motor speeds.
             self.left_motor.setVelocity(left_speed)
             self.right_motor.setVelocity(right_speed)
