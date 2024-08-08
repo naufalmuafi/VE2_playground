@@ -108,6 +108,7 @@ class FTO_Env(Supervisor, Env):
         super().step(self.__timestep)
 
         # initial state
+
         # initial_obs1 = np.zeros(
         #     (self.camera.getHeight(), self.camera.getWidth(), 3), dtype=np.uint8
         # )
@@ -135,6 +136,13 @@ class FTO_Env(Supervisor, Env):
         height = self.camera.getHeight()
         frame_area = width * height
 
+        red = 0
+        green = 0
+        blue = 0
+
+        # Create a 2D list to store pixel values
+        pixels = []
+
         # initialize data as an array
         data = np.zeros((height, width, 4), dtype=np.uint8)
         target_area = 0  # initialize target_area
@@ -143,17 +151,31 @@ class FTO_Env(Supervisor, Env):
             self.camera.isRecognitionSegmentationEnabled()
             and self.camera.getRecognitionSamplingPeriod() > 0
         ):
-            raw_data = self.camera.getRecognitionSegmentationImage()
+            image = self.camera.getImage()
+            objects = self.camera.getRecognitionObjects()
+            data = self.camera.getRecognitionSegmentationImage()
 
-            if raw_data:
-                data = np.array(raw_data).reshape(
-                    (height, width, 4)
-                )  # convert raw data to array
+            if data:
+                # Loop through each pixel in the image
+                for j in range(height):
+                    row = []
+                    for i in range(width):
+                        # Get the RGB values for the pixel (i, j)
+                        red = self.camera.imageGetRed(image, width, i, j)
+                        green = self.camera.imageGetGreen(image, width, i, j)
+                        blue = self.camera.imageGetBlue(image, width, i, j)
+
+                        # Append the RGB values as a tuple to the row
+                        row.append((red, green, blue))
+
+                    # Append the row to the pixels list
+                    pixels.append(row)
+
                 self.display_segmented_image(data, width, height)
 
                 # calculate the target area
-                target_area = self.calculate_target_area(
-                    data, width, height, frame_area
+                target_area = self.calculate_target_area_px(
+                    pixels, width, height, frame_area
                 )
 
         # observation
@@ -161,7 +183,8 @@ class FTO_Env(Supervisor, Env):
         #     "segmentation_img": data[:, :, :3],
         #     "target_area": np.array([target_area], dtype=np.float32),
         # }
-        self.state = data[:, :, :3]
+
+        self.state = pixels
 
         # check if the episode is done
         done = bool(target_area >= self.target_threshold)
@@ -193,6 +216,22 @@ class FTO_Env(Supervisor, Env):
                 index = (y * width + x) * 4
                 b, g, r, a = data[index : index + 4]
 
+                if r == 170 and g == 0 and b == 0:
+                    target_px += 1
+
+        target_area = target_px / frame_area
+
+        return target_area
+
+    def calculate_target_area_px(self, pixels, width, height, frame_area):
+        target_px = 0
+
+        for y in range(height):
+            for x in range(width):
+                # Get the RGB values for the pixel (x, y)
+                r, g, b = pixels[y][x]
+
+                # Check if the pixel matches the target color
                 if r == 170 and g == 0 and b == 0:
                     target_px += 1
 
