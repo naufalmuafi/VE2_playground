@@ -7,5 +7,5 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: -1
 consoles: Console:All:All
-renderingDevicePerspectives: MyBot:camera;1;1;0.0108303;0.0195122
+renderingDevicePerspectives: MyBot:camera;1;1;0.00992777;0.0268293
 renderingDevicePerspectives: MyBot:segmented image display;1;1.00781;0.0102813;0.354223

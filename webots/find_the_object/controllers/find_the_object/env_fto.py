@@ -42,36 +42,14 @@ class FTO_Env(Supervisor, Env):
         # get the camera devices
         self.camera = self.getDevice("camera")
 
-        # Set the action spaces: 0 = left, 1 = right, 2 = forward, 3 = stop
-        # case 1: discrete
-        # self.action_space: spaces.Discrete = spaces.Discrete(len(RobotAction))
+        # set the action spaces: 0 = left, 1 = right
+        self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float32)
 
-        # case 2: continuous
-        self.action_space = spaces.Box(
-            low=-self.max_speed, high=self.max_speed, shape=(2,), dtype=np.float32
-        )
-
-        # Set the observation spaces
-        # RGB images of shape (camera_width, camera_height, 3) and a target value in range 0-100
-        # self.observation_space = spaces.Dict(
-        #     {
-        #         "segmentation_img": spaces.Box(
-        #             low=0,
-        #             high=255,
-        #             shape=(self.camera.getHeight(), self.camera.getWidth(), 3),
-        #             dtype=np.uint8,
-        #         ),
-        #         "target_area": spaces.Box(
-        #             low=0, high=100, shape=(1,), dtype=np.float32
-        #         ),
-        #     }
-        # )
-
-        # pure image
+        # set the observation space: (channels, camera_height, camera_width)
         self.observation_space = spaces.Box(
             low=0,
             high=255,
-            shape=(self.camera.getHeight(), self.camera.getWidth(), 3),
+            shape=(3, self.camera.getHeight(), self.camera.getWidth()),
             dtype=np.uint8,
         )
 
@@ -108,15 +86,8 @@ class FTO_Env(Supervisor, Env):
         super().step(self.__timestep)
 
         # initial state
-
-        # initial_obs1 = np.zeros(
-        #     (self.camera.getHeight(), self.camera.getWidth(), 3), dtype=np.uint8
-        # )
-        # initial_obs2 = np.zeros((1,), dtype=np.float32)
-        # self.state = {"segmentation_img": initial_obs1, "target_area": initial_obs2}
-
         self.state = np.zeros(
-            (self.camera.getHeight(), self.camera.getWidth(), 3), dtype=np.uint8
+            (3, self.camera.getHeight(), self.camera.getWidth()), dtype=np.uint8
         )
 
         # info
@@ -125,9 +96,12 @@ class FTO_Env(Supervisor, Env):
         return self.state, info
 
     def step(self, action):
+        # Rescale actions from [-1, 1] to [-self.max_spped, self.max_spped]
+        scaled_action = action * self.max_speed
+
         # perform a continuous action
-        self.motors[0].setVelocity(action[0])
-        self.motors[1].setVelocity(action[1])
+        self.motors[0].setVelocity(scaled_action[0])
+        self.motors[1].setVelocity(scaled_action[1])
 
         # Get the new state
         super().step(self.__timestep)
@@ -142,10 +116,13 @@ class FTO_Env(Supervisor, Env):
 
         # Create a 2D list to store pixel values
         pixels = []
+        red_channel = []
+        green_channel = []
+        blue_channel = []
 
         # initialize data as an array
-        data = np.zeros((height, width, 4), dtype=np.uint8)
-        target_area = 0  # initialize target_area
+        # data = np.zeros((height, width, 4), dtype=np.uint8)
+        # target_area = 0  # initialize target_area
 
         if (
             self.camera.isRecognitionSegmentationEnabled()
@@ -158,7 +135,10 @@ class FTO_Env(Supervisor, Env):
             if data:
                 # Loop through each pixel in the image
                 for j in range(height):
-                    row = []
+                    red_row = []
+                    green_row = []
+                    blue_row = []
+
                     for i in range(width):
                         # Get the RGB values for the pixel (i, j)
                         red = self.camera.imageGetRed(image, width, i, j)
@@ -166,25 +146,28 @@ class FTO_Env(Supervisor, Env):
                         blue = self.camera.imageGetBlue(image, width, i, j)
 
                         # Append the RGB values as a tuple to the row
-                        row.append((red, green, blue))
+                        red_row.append(red)
+                        green_row.append(green)
+                        blue_row.append(blue)
 
                     # Append the row to the pixels list
-                    pixels.append(row)
+                    red_channel.append(red_row)
+                    green_channel.append(green_row)
+                    blue_channel.append(blue_row)
+
+                pixels = np.array(
+                    [red_channel, green_channel, blue_channel], dtype=np.uint8
+                )
 
                 self.display_segmented_image(data, width, height)
 
                 # calculate the target area
-                target_area = self.calculate_target_area_px(
+                target_area = self.calculate_target_area_color(
                     pixels, width, height, frame_area
                 )
 
-        # observation
-        # self.state = {
-        #     "segmentation_img": data[:, :, :3],
-        #     "target_area": np.array([target_area], dtype=np.float32),
-        # }
-
-        self.state = np.array(pixels, dtype=np.uint8)
+        # new state
+        self.state = pixels
 
         # check if the episode is done
         done = bool(target_area >= self.target_threshold)
@@ -223,13 +206,15 @@ class FTO_Env(Supervisor, Env):
 
         return target_area
 
-    def calculate_target_area_px(self, pixels, width, height, frame_area):
+    def calculate_target_area_color(self, pixels, width, height, frame_area):
         target_px = 0
 
         for y in range(height):
             for x in range(width):
                 # Get the RGB values for the pixel (x, y)
-                r, g, b = pixels[y][x]
+                r = pixels[0][y][x]  # Red channel
+                g = pixels[1][y][x]  # Green channel
+                b = pixels[2][y][x]  # Blue channel
 
                 # Check if the pixel matches the target color
                 if r == 170 and g == 0 and b == 0:
