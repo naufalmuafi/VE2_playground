@@ -23,31 +23,26 @@ RectangleArena {
   floorSize 1.5 1.5
 }
 Apple {
-  hidden linearVelocity_0 0 0 -1.2840770078052325e-07
   translation -0.35465 0.433918 0.04976457641294589
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953764 1.692343056365731
   name "apple_1"
 }
 Apple {
-  hidden linearVelocity_0 0 0 -1.2840770078052325e-07
   translation 0.110869 0.295523 0.04976457641294589
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953764 1.692343056365731
   name "apple_2"
 }
 Apple {
-  hidden linearVelocity_0 0 0 -1.2840770078052325e-07
   translation -0.15774 0.137389 0.04976457641294589
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953764 1.692343056365731
   name "apple_3"
 }
 Apple {
-  hidden linearVelocity_0 0 0 -1.2840770078052325e-07
   translation 0.0760692 -0.311813 0.04976457641294589
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953764 1.692343056365731
   name "apple_4"
 }
 Apple {
-  hidden linearVelocity_0 0 0 -1.2401339214799615e-13
   translation -0.183394 -0.409668 0.049764560000015855
   rotation -0.13023820170165804 -0.9885015353459079 -0.07682919650953762 1.6923430563657311
   name "apple_5"
@@ -78,7 +73,6 @@ DEF TARGET_1 Solid {
   recognitionColors [
     0.666667 0 0
   ]
-  linearVelocity 0 0 -1.3049774947070007e-07
 }
 DEF ROBOT Robot {
   translation -0.5922606976111104 -0.028925375010161024 -0.002026274484370219
@@ -116,7 +110,7 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 0.04499999999999986 0.025
+        translation 0 0.044999999999999846 0.025
         rotation 0 1 0 2.5860721587148037
         children [
           DEF WHEEL Pose {
@@ -142,8 +136,6 @@ DEF ROBOT Robot {
           density -1
           mass 0.05
         }
-        linearVelocity -0.01430602022581251 -0.02461289880991445 0.01434095136343558
-        angularVelocity 0.992116871722108 -0.5962964829933459 -0.07037851172250119
       }
     }
     HingeJoint {
@@ -162,16 +154,14 @@ DEF ROBOT Robot {
         }
       ]
       endPoint Solid {
-        translation 0 -0.04499999999999993 0.025
-        rotation 0 1 0 0.4487873046329862
+        translation 0 -0.0449999999999999 0.025
+        rotation 0 0.9999999999999999 0 0.4487873046329872
         children [
           USE WHEEL
         ]
         name "right wheel"
         boundingObject USE WHEEL
         physics USE PHYSICS_WHEEL
-        linearVelocity -0.005635716461086635 -0.023371725568289037 0.11016410668954152
-        angularVelocity 1.0461644260490566 -0.211056692240576 -0.09014218871970346
       }
     }
     DistanceSensor {
@@ -309,6 +299,4 @@ DEF ROBOT Robot {
   }
   controller "<extern>"
   supervisor TRUE
-  linearVelocity -0.011476111491316044 -0.041459509507957015 0.06269716536058176
-  angularVelocity 1.0622132309447263 -0.09665225671901173 -0.09601160518704567
 }

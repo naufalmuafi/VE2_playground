@@ -115,7 +115,7 @@ class FTO_Env(Supervisor, Env):
         blue = 0
 
         # Create a 2D list to store pixel values
-        pixels = []
+        obs = []
         red_channel = []
         green_channel = []
         blue_channel = []
@@ -155,19 +155,19 @@ class FTO_Env(Supervisor, Env):
                     green_channel.append(green_row)
                     blue_channel.append(blue_row)
 
-                pixels = np.array(
+                obs = np.array(
                     [red_channel, green_channel, blue_channel], dtype=np.uint8
                 )
 
                 self.display_segmented_image(data, width, height)
 
                 # calculate the target area
-                target_area = self.calculate_target_area_color(
-                    pixels, width, height, frame_area
+                target_area = self.calculate_color_target_area(
+                    obs, width, height, frame_area
                 )
 
         # new state
-        self.state = pixels
+        self.state = obs
 
         # check if the episode is done
         done = bool(target_area >= self.target_threshold)
@@ -191,32 +191,17 @@ class FTO_Env(Supervisor, Env):
         self.display.imagePaste(segmented_image, 0, 0, False)
         self.display.imageDelete(segmented_image)
 
-    def calculate_target_area(self, data, width, height, frame_area):
+    def calculate_color_target_area(self, image, width, height, frame_area):
         target_px = 0
 
         for y in range(height):
             for x in range(width):
-                index = (y * width + x) * 4
-                b, g, r, a = data[index : index + 4]
+                # get the RGB values for the pixel (x, y)
+                r = image[0][y][x]  # Red channel
+                g = image[1][y][x]  # Green channel
+                b = image[2][y][x]  # Blue channel
 
-                if r == 170 and g == 0 and b == 0:
-                    target_px += 1
-
-        target_area = target_px / frame_area
-
-        return target_area
-
-    def calculate_target_area_color(self, pixels, width, height, frame_area):
-        target_px = 0
-
-        for y in range(height):
-            for x in range(width):
-                # Get the RGB values for the pixel (x, y)
-                r = pixels[0][y][x]  # Red channel
-                g = pixels[1][y][x]  # Green channel
-                b = pixels[2][y][x]  # Blue channel
-
-                # Check if the pixel matches the target color
+                # check if the pixel matches the target color i.e. red color
                 if r == 170 and g == 0 and b == 0:
                     target_px += 1
 
